@@ -1,0 +1,146 @@
+/*
+ * Main
+ */
+
+html {
+  width: 500px;
+}
+
+/*
+ * Tabs Header
+ */
+
+li.is-active > a {
+  background: whitesmoke !important;
+  color: #000000 !important;
+}
+
+/*
+ * Tabs Content
+ */
+
+div#layers {
+  max-height: 400px;
+  margin-top: -20px;
+  margin-bottom: 0px;
+  overflow: auto;
+}
+
+div.blur {
+  position: relative;
+  width: 100%;
+  height: 20px;
+  z-index: 1;
+}
+
+div.blur-top {
+  background: linear-gradient(180deg, whitesmoke, transparent);
+}
+
+div.blur-bottom {
+  margin-top: -20px;
+  background: linear-gradient(0deg, whitesmoke, transparent);
+}
+
+pre {
+  display: none !important;
+  margin: 0 !important;
+  padding-top: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+}
+
+pre.is-active {
+  display: block !important;
+}
+
+mark {
+  background: #3e8ed0 !important;
+  color: whitesmoke !important;
+}
+
+/*
+ * Renderjson Content
+ */
+
+.renderjson .disclosure {
+  color: hsl(0, 0%, 86%);
+}
+
+.renderjson .key {
+  color: hsl(0, 0%, 21%);
+}
+
+.renderjson .string {
+  color: hsl(141, 53%, 53%);
+}
+
+.renderjson .number {
+  all: unset !important;
+  color: hsl(217, 71%, 53%) !important;
+}
+
+.renderjson .boolean {
+  color: hsl(348, 100%, 61%);
+  font-style: italic;
+}
+
+.renderjson .keyword {
+  color: hsl(0, 0%, 71%);
+  font-style: italic;
+}
+
+.renderjson .syntax,
+.renderjson .object.syntax,
+.renderjson .array.syntax {
+  color: hsl(0, 0%, 29%);
+}
+
+/*
+ * Footer
+ */
+
+.button {
+  align-items: center;
+  display: flex;
+  flex-basis: 0;
+  flex-grow: 1;
+  flex-shrink: 0;
+  justify-content: center;
+  padding: 0.75rem;
+}
+
+button {
+  border-right: 1px solid whitesmoke !important;
+}
+
+input,
+input:focus,
+button#search,
+button#search:focus {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+button#search:hover {
+  background: whitesmoke;
+}
+
+#results {
+  font-size: 0.6rem;
+  position: absolute;
+  padding-right: 1px;
+  z-index: 5;
+  bottom: 0;
+  right: 0;
+}
+
+button.resize {
+  width: 20px !important;
+  border-right: none !important;
+}
+
+button.resize:not(:last-child) {
+  border-bottom: 1px solid whitesmoke !important;
+}

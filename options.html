@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/bulma.css" />
+    <link rel="stylesheet" href="/css/options.css" />
+    <title>Data Layer Options</title>
+  </head>
+  <body class="has-background-light">
+    <section class="hero is-fullheight">
+      <div class="hero-body is-flex-direction-column is-justify-content-center">
+        <div class="card">
+          <header class="card-header has-background-info is-radiusless">
+            <p class="card-header-title has-text-light">Options</p>
+          </header>
+
+          <div class="card-content is-flex">
+            <section class="section">
+              <div class="content">
+                <p class="subtitle">Edit data layer names</p>
+                <p class="description">
+                  Change names or rearrange order of data layer objects to
+                  search for:
+                </p>
+              </div>
+
+              <div id="inputs" class="content">
+                <div class="control my-1">
+                  <input
+                    class="input is-radiusless"
+                    type="text"
+                    pattern="^[^\\[\\]\\d]+$"
+                    value=""
+                  />
+                </div>
+                <div class="control my-1">
+                  <input
+                    class="input is-radiusless"
+                    type="text"
+                    pattern="^[^\\[\\]\\d]+$"
+                    value=""
+                  />
+                </div>
+                <div class="control my-1">
+                  <input
+                    class="input is-radiusless"
+                    type="text"
+                    pattern="^[^\\[\\]\\d]+$"
+                    value=""
+                  />
+                </div>
+                <div class="control my-1">
+                  <input
+                    class="input is-radiusless"
+                    type="text"
+                    pattern="^[^\\[\\]\\d]+$"
+                    value=""
+                  />
+                </div>
+                <div class="control my-1">
+                  <input
+                    class="input is-radiusless"
+                    type="text"
+                    pattern="^[^\\[\\]\\d]+$"
+                    value=""
+                  />
+                </div>
+              </div>
+
+              <div class="content">
+                <blockquote>
+                  <p class="description is-size-7">
+                    ⓘ You can target nested Objects:
+                    <span class="is-family-monospace has-text-weight-semibold"
+                      >digitalData.page.pageInfo</span
+                    >
+                  </p>
+                </blockquote>
+              </div>
+            </section>
+
+            <section class="section">
+              <div class="content">
+                <p class="subtitle">Edit popup window size</p>
+                <p class="description">
+                  Set the extensions window to be dynamic or have a fixed width:
+                </p>
+              </div>
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select id="width" class="is-radiusless">
+                    <option value="0">dynamic</option>
+                    <option value="330">330px</option>
+                    <option value="400">400px</option>
+                    <option value="500">500px</option>
+                    <option value="600">600px</option>
+                    <option value="700">700px</option>
+                    <option value="800">800px</option>
+                  </select>
+                </div>
+              </div>
+
+              <hr />
+
+              <div class="content">
+                <p class="subtitle">Edit data layer text size</p>
+                <p class="description">
+                  Set the default text size of the displayed data layer content:
+                </p>
+              </div>
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select id="size" class="is-radiusless">
+                    <option value="1">10%</option>
+                    <option value="2">20%</option>
+                    <option value="3">30%</option>
+                    <option value="4">40%</option>
+                    <option value="5">50%</option>
+                    <option value="6">60%</option>
+                    <option value="7">70%</option>
+                    <option value="8">80%</option>
+                    <option value="9">90%</option>
+                    <option value="10">100%</option>
+                    <option value="11">110%</option>
+                    <option value="12">120%</option>
+                    <option value="13">130%</option>
+                    <option value="14">140%</option>
+                    <option value="15">150%</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <footer class="card-footer">
+            <button
+              id="save"
+              style="border-right: 1px solid whitesmoke !important"
+              class="button is-info is-radiusless card-footer-item"
+            >
+              Save options
+            </button>
+            <button
+              id="defaults"
+              class="button is-light is-radiusless card-footer-item"
+            >
+              Load defaults
+            </button>
+          </footer>
+        </div>
+      </div>
+    </section>
+
+    <div class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-content"></div>
+    </div>
+  </body>
+
+  <script src="/js/options-content.js"></script>
+  <script src="/js/options-logic.js"></script>
+</html>
