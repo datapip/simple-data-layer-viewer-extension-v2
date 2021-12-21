@@ -11,39 +11,37 @@ const state = {
     this.names = names;
     this.width = width;
     this.size = size;
-    loadSuccessContent();
+    insertOptionsContent();
   },
-  setError(error) {
+  updateError(error) {
     this.error = error;
-    loadFailureModal();
+    showErrorModal();
   },
 };
 
-(() => {
-  try {
-    chrome.storage.sync.get(
-      ["dataLayerNames", "windowWidth", "textSize"],
-      ({ dataLayerNames, windowWidth, textSize }) => {
-        state.updateData(dataLayerNames, windowWidth, textSize);
-      }
-    );
-  } catch (error) {
-    state.setError(error);
+chrome.storage.sync.get(
+  ["dataLayerNames", "windowWidth", "textSize"],
+  ({ dataLayerNames, windowWidth, textSize }) => {
+    if (chrome.runtime.lastError) {
+      state.updateError(chrome.runtime.lastError);
+    } else {
+      state.updateData(dataLayerNames, windowWidth, textSize);
+    }
   }
-})();
+);
 
 /**
  * Functions
  */
 
-const loadSuccessContent = () => {
+const insertOptionsContent = () => {
   document.querySelector("#inputs").innerHTML = createInputs(state.names);
   document.querySelector("select#width").value = state.width;
   document.querySelector("select#size").value = state.size;
-  loadEventListeners();
+  loadOptionsEventListeners();
 };
 
-const loadFailureModal = () => {
+const showErrorModal = () => {
   document.querySelector(".modal-content").innerHTML = createModal(
     state.error.message
   );
@@ -53,44 +51,56 @@ const loadFailureModal = () => {
   document.querySelector(".modal").classList.add("is-active");
 };
 
-const loadEventListeners = () => {
-  const getDataLayerNamesFromInputs = () => {
-    const inputs = [...document.querySelectorAll("input")];
-    return inputs.map((input) => input.value);
-  };
+const getDataLayerNamesFromInputs = () => {
+  const inputs = [...document.querySelectorAll("input")];
+  return inputs.map((input) => input.value);
+};
 
-  const getWindowWidthFromSelect = () => {
-    return parseInt(document.querySelector("select#width").value);
-  };
+const getWindowWidthFromSelect = () => {
+  return parseInt(document.querySelector("select#width").value);
+};
 
-  const getTextSizeFromSelect = () => {
-    return parseInt(document.querySelector("select#size").value);
-  };
+const getTextSizeFromSelect = () => {
+  return parseInt(document.querySelector("select#size").value);
+};
 
-  const setLoadingThenExecute = (button, logic) => {
-    button.classList.add("is-loading");
-    setTimeout(() => {
-      logic();
-    }, 250);
-  };
+const setLoadingThenExecute = (button, logic) => {
+  button.classList.add("is-loading");
+  setTimeout(() => {
+    logic();
+  }, 250);
+};
 
-  const syncElementsWithStorage = (object) => {
-    try {
-      chrome.storage.sync.set(object, () => {
-        location.reload();
-      });
-    } catch (error) {
-      state.setError(error);
-    }
-  };
+const syncWithChromeStorage = (object) => {
+  try {
+    chrome.storage.sync.set(object, () => {
+      location.reload();
+    });
+  } catch (error) {
+    state.updateError(error);
+  }
+};
 
+const updateSaveButtonStatus = () => {
+  if (document.querySelectorAll("input.is-danger").length) {
+    document.querySelector("#save").setAttribute("disabled", "");
+  } else {
+    document.querySelector("#save").removeAttribute("disabled");
+  }
+};
+
+/**
+ * Event Listeners
+ */
+
+const loadOptionsEventListeners = () => {
   const saveButton = document.querySelector("#save");
   saveButton.onclick = () => {
     const dataLayerNames = getDataLayerNamesFromInputs();
     const windowWidth = getWindowWidthFromSelect();
     const textSize = getTextSizeFromSelect();
     setLoadingThenExecute(saveButton, () =>
-      syncElementsWithStorage({ dataLayerNames, windowWidth, textSize })
+      syncWithChromeStorage({ dataLayerNames, windowWidth, textSize })
     );
   };
 
@@ -98,27 +108,19 @@ const loadEventListeners = () => {
   defaultsButton.onclick = () => {
     try {
       const dataLayerNames = [
-        "dataLayer",
-        "digitalData",
-        "utag_data",
-        "tc_vars",
-        "udo",
-      ];
-      const windowWidth = 500;
-      const textSize = 8;
+          "dataLayer",
+          "digitalData",
+          "utag_data",
+          "tc_vars",
+          "udo",
+        ],
+        windowWidth = 500,
+        textSize = 8;
       setLoadingThenExecute(defaultsButton, () =>
-        syncElementsWithStorage({ dataLayerNames, windowWidth, textSize })
+        syncWithChromeStorage({ dataLayerNames, windowWidth, textSize })
       );
     } catch (error) {
-      state.setError(error);
-    }
-  };
-
-  const updateSaveButtonStatus = () => {
-    if (document.querySelectorAll("input.is-danger").length) {
-      document.querySelector("#save").setAttribute("disabled", "");
-    } else {
-      document.querySelector("#save").removeAttribute("disabled");
+      state.updateError(error);
     }
   };
 

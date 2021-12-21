@@ -11,7 +11,7 @@
     script.src = chrome.runtime.getURL("/js/inject.js");
     script.dataset.name = JSON.stringify(dataLayerNames);
     script.onload = () => {
-      document.getElementById(script.id).remove();
+      document.querySelector(`#${script.id}`).remove();
     };
     return script;
   };

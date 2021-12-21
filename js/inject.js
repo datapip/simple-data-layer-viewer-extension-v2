@@ -1,10 +1,4 @@
 (() => {
-  const dataLayerNames = JSON.parse(
-    document.getElementById("simple-data-layer-viewer-helper").dataset.name
-  );
-
-  const foundDataLayers = [];
-
   const referenceDataLayerFromWindow = (dataLayerName) => {
     return dataLayerName.split(".").reduce((accumulator, currentValue) => {
       return accumulator[currentValue];
@@ -17,6 +11,12 @@
       layer: JSON.stringify(dataLayerData),
     });
   };
+
+  const dataLayerNames = JSON.parse(
+    document.getElementById("simple-data-layer-viewer-helper").dataset.name
+  );
+
+  const foundDataLayers = [];
 
   dataLayerNames.forEach((dataLayerName) => {
     const dataLayerData = referenceDataLayerFromWindow(dataLayerName);

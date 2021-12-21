@@ -3,37 +3,37 @@
  */
 
 const search = {
-  index: 0,
+  result: 0,
   keyword: null,
   content: null,
   matches: null,
   timer: null,
-  setIndex(index) {
-    this.index = index;
-    scrollSpanIntoView();
-    displayResultStats();
+  updateResult(result) {
+    this.result = result;
+    scrollResultIntoView();
+    displayResultInfo();
   },
-  setKeyword(keyword) {
-    this.resetVisual();
+  updateKeyword(keyword) {
+    this.resetVisuals();
     this.keyword = keyword;
-    setSearchResults();
+    getSearchResults();
   },
-  setContent(content) {
+  updateContent(content) {
     this.content = content;
   },
-  setMatches(matches) {
+  updateMatches(matches) {
     this.matches = matches;
-    addHighlightingToResults();
-    scrollSpanIntoView();
-    displayResultStats();
+    addResultHighlighting();
+    scrollResultIntoView();
+    displayResultInfo();
   },
-  resetVisual() {
-    removeHighlightingFromResults();
-    removeDisplayOfResultStats();
-    this.index = 0;
+  resetVisuals() {
+    this.result = 0;
+    removeResultHighlighting();
+    removeResultInfo();
   },
-  resetAll() {
-    this.resetVisual();
+  resetData() {
+    this.resetVisuals();
     this.keyword = null;
     this.content = null;
     this.matches = null;
@@ -41,7 +41,7 @@ const search = {
       top: 0,
       left: 0,
     });
-    document.querySelector("input.search").value = "";
+    resetSearchInput();
   },
 };
 
@@ -49,60 +49,56 @@ const search = {
  * Functions
  */
 
-const searchInContent = (keyword) => {
+const searchInCurrentContent = (keyword) => {
   if (!keyword) {
-    search.resetAll();
+    search.resetData();
   } else {
-    setContentToSearch();
-    setKeywordForSearch(keyword);
+    getCurrentTabsContent();
+    checkSearchKeyword(keyword);
   }
 };
 
-const setContentToSearch = () => {
-  const content = getAllSpanNodes();
-  search.setContent(content);
-};
-
-const getAllSpanNodes = () => {
-  return document.querySelectorAll(
+const getCurrentTabsContent = () => {
+  const content = document.querySelectorAll(
     ` 
-    pre.is-active span.key, 
-    pre.is-active span.string, 
-    pre.is-active span.number, 
-    pre.is-active span.boolean, 
-    pre.is-active span.keyword
-  `
+      pre.is-active span.key, 
+      pre.is-active span.string, 
+      pre.is-active span.number, 
+      pre.is-active span.boolean, 
+      pre.is-active span.keyword
+    `
   );
+  search.updateContent(content);
 };
 
-const setKeywordForSearch = (keyword) => {
+const checkSearchKeyword = (keyword) => {
   if (search.keyword !== keyword) {
-    search.setKeyword(keyword);
+    search.updateKeyword(keyword);
   } else {
-    updateIndexForSameSearch();
+    increaseResultIndex();
   }
 };
 
-const updateIndexForSameSearch = () => {
+const increaseResultIndex = () => {
   if (!search.matches) return;
-  if (search.index + 1 === search.matches.length) {
-    search.setIndex(0);
+  if (search.result + 1 === search.matches.length) {
+    search.updateResult(0);
   } else {
-    search.setIndex(++search.index);
+    search.updateResult(++search.result);
   }
 };
 
-const setSearchResults = () => {
+const getSearchResults = () => {
   const matches = [];
   search.content.forEach((span) => {
     if (span.innerHTML.indexOf(search.keyword) != -1) {
       matches.push(span);
     }
   });
-  if (matches.length) search.setMatches(matches);
+  if (matches.length) search.updateMatches(matches);
 };
 
-const addHighlightingToResults = () => {
+const addResultHighlighting = () => {
   search.matches.forEach((span) => {
     span.innerHTML = span.innerHTML.replace(
       search.keyword,
@@ -111,7 +107,7 @@ const addHighlightingToResults = () => {
   });
 };
 
-const removeHighlightingFromResults = () => {
+const removeResultHighlighting = () => {
   if (search.matches) {
     search.matches.forEach((span) => {
       span.innerHTML = span.innerHTML.replace(
@@ -122,8 +118,8 @@ const removeHighlightingFromResults = () => {
   }
 };
 
-const scrollSpanIntoView = () => {
-  const span = search.matches[search.index];
+const scrollResultIntoView = () => {
+  const span = search.matches[search.result];
   const y = getCalculatedYPosition(span.getBoundingClientRect());
   scrollToLocation({
     top: y,
@@ -143,35 +139,43 @@ const getCalculatedYPosition = (spanBounds) => {
   return spanBounds.y - preBounds.y - 20;
 };
 
-const displayResultStats = () => {
+const displayResultInfo = () => {
   document.querySelector("#results").innerHTML = `
-    ${search.index + 1} of ${search.matches.length}
+    ${search.result + 1} of ${search.matches.length}
   `;
 };
 
-const removeDisplayOfResultStats = () => {
+const removeResultInfo = () => {
   document.querySelector("#results").innerHTML = "";
 };
 
+const resetSearchInput = () => {
+  document.querySelector("input.search").value = "";
+};
+
+/**
+ * Event Listeners
+ */
+
 const loadSearchEventListeners = () => {
-  document.querySelectorAll(".tabs li").forEach((li) => {
+  document.querySelectorAll(".tabs li, #expand, #collapse").forEach((li) => {
     li.onmouseup = () => {
-      search.resetAll();
+      search.resetData();
     };
   });
 
   document.querySelector("#search").onclick = () => {
-    updateIndexForSameSearch();
+    increaseResultIndex();
   };
 
   document.querySelector("input.search").onkeyup = (event) => {
     if (event.keyCode === 13) {
-      updateIndexForSameSearch();
+      increaseResultIndex();
     } else {
       clearTimeout(search.timer);
       search.timer = setTimeout(() => {
-        searchInContent(event.target.value);
-      }, 200);
+        searchInCurrentContent(event.target.value);
+      }, 250);
     }
   };
 };
