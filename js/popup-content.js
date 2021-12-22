@@ -59,10 +59,6 @@ const createFooter = () => {
     <button id="collapse" class="button is-info is-radiusless">Collapse</button>
     <button id="expand" class="button is-info is-radiusless">Expand</button>
     <button id="copy" class="button is-info is-radiusless">Copy</button>
-    <div class="buttons is-flex-direction-column m-0">
-      <button id="increase" class="button resize is-small is-info is-radiusless p-0 m-0"">+</button>
-      <button id="decrease" class="button resize is-small is-info is-radiusless p-0 m-0">-</button>
-    </div>
   `;
 };
 

@@ -6,21 +6,15 @@ const state = {
   tab: null,
   index: 0,
   data: null,
-  size: null,
-  width: null,
   error: null,
   updateIndex(index) {
     this.index = index;
-    setTabsActiveClass();
+    setTabsClass();
   },
   updateData(data) {
     this.data = data;
     insertContainer();
     loadContent();
-  },
-  updateSize(size) {
-    this.size = size;
-    setTabsTextSize();
   },
   updateError(error) {
     this.error = error;
@@ -35,8 +29,7 @@ chrome.storage.sync.get(
     if (chrome.runtime.lastError) {
       state.updateError(chrome.runtime.lastError);
     } else {
-      state.size = textSize;
-      state.width = windowWidth;
+      createStyling(windowWidth, textSize);
     }
   }
 );
@@ -67,8 +60,21 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
  * Functions
  */
 
+const createStyling = (windowWidth, textSize) => {
+  const size = !textSize ? `0.9em` : `${textSize / 10}em`;
+  const width = !windowWidth ? `auto` : `${windowWidth}px`;
+  const style = document.createElement("style");
+  style.innerHTML = `
+    html {
+      width: ${width} !important;
+    }
+    #layers pre {
+      font-size: ${size} !important;
+    }`;
+  document.head.appendChild(style);
+};
+
 const insertContainer = () => {
-  document.querySelector("html").style.width = getTransformedWindowWith();
   document.querySelector("#container").innerHTML = createContainer();
   loadContainerEventListeners();
 };
@@ -106,8 +112,7 @@ const insertTabsContent = () => {
     const node = createTabContentNode(data.layer, index);
     document.querySelector("#layers").appendChild(node);
   });
-  setTabsTextSize();
-  setTabsActiveClass();
+  setTabsClass();
 };
 
 const createTabContentNode = (layer, index, scope = "all") => {
@@ -118,13 +123,7 @@ const createTabContentNode = (layer, index, scope = "all") => {
   return node;
 };
 
-const setTabsTextSize = () => {
-  document.querySelectorAll("pre").forEach((pre) => {
-    pre.style.fontSize = getTransformedTextSize();
-  });
-};
-
-const setTabsActiveClass = () => {
+const setTabsClass = () => {
   document.querySelectorAll(`[data-id]`).forEach((element) => {
     if (parseInt(element.dataset.id) === state.index) {
       element.classList.add("is-active");
@@ -160,14 +159,6 @@ const collapseTabsContent = (collapse) => {
   newNode.classList.add("is-active");
   nodeContainer.insertBefore(newNode, currentNode);
   currentNode.remove();
-};
-
-const getTransformedWindowWith = () => {
-  return !state.width ? `auto` : `${state.width}px`;
-};
-
-const getTransformedTextSize = () => {
-  return `${state.size / 10}em`;
 };
 
 /**
@@ -206,13 +197,5 @@ const loadTabsFooterEventListeners = () => {
 
   document.querySelector("#copy").onclick = () => {
     navigator.clipboard.writeText(state.data[state.index].layer);
-  };
-
-  document.querySelector("#increase").onclick = () => {
-    if (state.size <= 14) state.updateSize(++state.size);
-  };
-
-  document.querySelector("#decrease").onclick = () => {
-    if (state.size >= 2) state.updateSize(--state.size);
   };
 };
