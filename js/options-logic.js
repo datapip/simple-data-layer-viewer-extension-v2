@@ -52,8 +52,7 @@ const showErrorModal = () => {
 };
 
 const getDataLayerNamesFromInputs = () => {
-  const inputs = [...document.querySelectorAll("input")];
-  return inputs.map((input) => input.value);
+  return [...document.querySelectorAll("input")].map((input) => input.value);
 };
 
 const getWindowWidthFromSelect = () => {
@@ -81,7 +80,7 @@ const syncWithChromeStorage = (object) => {
   }
 };
 
-const updateSaveButtonStatus = () => {
+const toggleSaveButtonDisablement = () => {
   if (document.querySelectorAll("input.is-danger").length) {
     document.querySelector("#save").setAttribute("disabled", "");
   } else {
@@ -131,7 +130,7 @@ const loadOptionsEventListeners = () => {
       } else {
         event.target.classList.add("is-danger", "has-text-danger");
       }
-      updateSaveButtonStatus();
+      toggleSaveButtonDisablement();
     };
   });
 };
