@@ -45,10 +45,8 @@ const showErrorModal = () => {
   document.querySelector(".modal-content").innerHTML = createModal(
     state.error.message
   );
-  document.querySelector("#close").onclick = () => {
-    location.reload();
-  };
   document.querySelector(".modal").classList.add("is-active");
+  loadModalEventListeners();
 };
 
 const getDataLayerNamesFromInputs = () => {
@@ -71,13 +69,13 @@ const setLoadingThenExecute = (button, logic) => {
 };
 
 const syncWithChromeStorage = (object) => {
-  try {
-    chrome.storage.sync.set(object, () => {
+  chrome.storage.sync.set(object, () => {
+    if (chrome.runtime.lastError) {
+      state.updateError(chrome.runtime.lastError);
+    } else {
       location.reload();
-    });
-  } catch (error) {
-    state.updateError(error);
-  }
+    }
+  });
 };
 
 const toggleSaveButtonDisablement = () => {
@@ -92,6 +90,12 @@ const toggleSaveButtonDisablement = () => {
  * Event Listeners
  */
 
+const loadModalEventListeners = () => {
+  document.querySelector("#close").onclick = () => {
+    location.reload();
+  };
+};
+
 const loadOptionsEventListeners = () => {
   const saveButton = document.querySelector("#save");
   saveButton.onclick = () => {
@@ -105,22 +109,18 @@ const loadOptionsEventListeners = () => {
 
   const defaultsButton = document.querySelector("#defaults");
   defaultsButton.onclick = () => {
-    try {
-      const dataLayerNames = [
-          "dataLayer",
-          "digitalData",
-          "utag_data",
-          "tc_vars",
-          "udo",
-        ],
-        windowWidth = 500,
-        textSize = 8;
-      setLoadingThenExecute(defaultsButton, () =>
-        syncWithChromeStorage({ dataLayerNames, windowWidth, textSize })
-      );
-    } catch (error) {
-      state.updateError(error);
-    }
+    const dataLayerNames = [
+        "dataLayer",
+        "digitalData",
+        "utag_data",
+        "tc_vars",
+        "udo",
+      ],
+      windowWidth = 500,
+      textSize = 8;
+    setLoadingThenExecute(defaultsButton, () =>
+      syncWithChromeStorage({ dataLayerNames, windowWidth, textSize })
+    );
   };
 
   document.querySelectorAll("#inputs input").forEach((input) => {
