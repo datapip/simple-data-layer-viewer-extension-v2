@@ -1,16 +1,48 @@
-const createHeader = () => {
+const createContainer = () => {
   return `
-    <header class="card-header has-background-info is-radiusless">
-      <p class="card-header-title has-text-light">
-        Simple Data Layer Viewer
-      </p>
-      <a id="options" role="button" class="navbar-burger has-text-light">
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </a>
-    </header>
+    <div class="card">
+      <header class="card-header has-background-info is-radiusless">
+        <p class="card-header-title has-text-light">
+          Simple Data Layer Viewer
+        </p>
+        <a id="options" role="button" class="navbar-burger has-text-light">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </header>
+      <div class="card-content pt-4 pb-0 px-4">     
+      </div>
+      <footer id="footer" class="card-footer">
+      </footer>
+    </div>
   `;
+};
+
+const createTabsContainer = () => {
+  return `
+    <div class="tabs is-boxed mb-0">
+    <ul id="tabs">
+      </ul>
+    </div>
+    <div class="content">
+      <div class="blur blur-top"></div>
+      <div id="layers">
+      </div>
+      <div class="blur blur-bottom"></div>
+    </div>  
+  `;
+};
+
+const createTabsHeader = (tabs) => {
+  return tabs
+    .map(
+      (tab, index) =>
+        `<li data-id="${index}">
+          <a>${tab.name}</a>
+        </li>`
+    )
+    .join("");
 };
 
 const createFooter = () => {
@@ -34,46 +66,17 @@ const createFooter = () => {
   `;
 };
 
-const createTabsHeader = (tabs) => {
-  return tabs
-    .map(
-      (tab, index) =>
-        `<li data-id="${index}">
-          <a>${tab.name}</a>
-        </li>`
-    )
-    .join("");
-};
-
-const createContainer = () => {
-  return `
-    <div class="card">
-      ${createHeader()}
-      <div class="card-content pt-4 pb-0 px-4">
-        <div class="tabs is-boxed mb-0">
-          <ul id="tabs">
-          </ul>
-        </div>
-        <div class="content">
-          <div class="blur blur-top"></div>
-          <div id="layers">
-          </div>
-          <div class="blur blur-bottom"></div>
-        </div>       
-      </div>
-      <footer id="footer" class="card-footer">
-      </footer>
-    </div>
-  `;
-};
-
-const createError = (error) => {
-  const message = error
-    ? error.message
-    : `Sorry, none of the <strong>declared</strong> data layers could be found on this <strong>website</strong>!`;
+const createError = (message) => {
   return `
     <div class="content mb-4">
       <blockquote>${message}</blockquote>
-    </div>
+    </div>      
   `;
+};
+
+const createFailure = () => {
+  const message = `
+    Sorry, none of the <strong>declared</strong> data layers 
+    could be found on this <strong>website</strong>.`;
+  return createError(message);
 };
