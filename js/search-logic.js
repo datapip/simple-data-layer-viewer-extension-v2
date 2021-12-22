@@ -94,13 +94,10 @@ const increaseResult = () => {
 };
 
 const getResults = () => {
-  const matches = [];
-  search.content.forEach((span) => {
-    if (span.innerHTML.indexOf(search.keyword) != -1) {
-      matches.push(span);
-    }
+  const results = [...search.content].filter((span) => {
+    return span.innerHTML.indexOf(search.keyword) != -1;
   });
-  if (matches.length) search.updateMatches(matches);
+  if (results.length) search.updateMatches(results);
 };
 
 const addResultHighlighting = () => {
