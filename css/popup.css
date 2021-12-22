@@ -6,6 +6,10 @@ html {
   width: 500px;
 }
 
+div.content {
+  background: whitesmoke !important;
+}
+
 /*
  * Tabs Header
  */
@@ -20,7 +24,7 @@ li.is-active > a {
  */
 
 div#layers {
-  max-height: 400px;
+  height: 450px;
   margin-top: -20px;
   margin-bottom: 0px;
   overflow: auto;

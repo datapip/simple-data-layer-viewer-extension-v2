@@ -11,7 +11,7 @@ const createContainer = () => {
           <span aria-hidden="true"></span>
         </a>
       </header>
-      <div class="card-content pt-4 pb-0 px-4">     
+      <div class="card-content px-3 pt-3 pb-0">     
       </div>
       <footer id="footer" class="card-footer">
       </footer>
