@@ -34,12 +34,11 @@ const search = {
     this.keyword = null;
     this.content = null;
     this.matches = null;
+    resetSearchInput();
     scrollToLocation({
       top: 0,
       left: 0,
-      behavior: "smooth",
     });
-    resetSearchInput();
   },
 };
 
