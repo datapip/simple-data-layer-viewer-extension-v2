@@ -2,7 +2,7 @@ div.card {
   min-width: 320px;
 }
 
-section.section {
-  width: 300px;
+div.column {
+  width: 300px !important;
   padding: 0px 20px;
 }
