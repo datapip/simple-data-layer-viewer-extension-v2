@@ -5,11 +5,13 @@
 const state = {
   names: null,
   width: null,
+  height: null,
   size: null,
   error: null,
-  updateData(names, width, size) {
+  updateData(names, width, height, size) {
     this.names = names;
     this.width = width;
+    this.height = height;
     this.size = size;
     insertOptionsContent();
   },
@@ -20,12 +22,12 @@ const state = {
 };
 
 chrome.storage.sync.get(
-  ["dataLayerNames", "windowWidth", "textSize"],
-  ({ dataLayerNames, windowWidth, textSize }) => {
+  ["dataLayerNames", "windowWidth", "windowHeight", "textSize"],
+  ({ dataLayerNames, windowWidth, windowHeight, textSize }) => {
     if (chrome.runtime.lastError) {
       state.updateError(chrome.runtime.lastError);
     } else {
-      state.updateData(dataLayerNames, windowWidth, textSize);
+      state.updateData(dataLayerNames, windowWidth, windowHeight, textSize);
     }
   }
 );
@@ -37,6 +39,7 @@ chrome.storage.sync.get(
 const insertOptionsContent = () => {
   document.querySelector("#inputs").innerHTML = createInputs(state.names);
   document.querySelector("select#width").value = state.width;
+  document.querySelector("select#height").value = state.height;
   document.querySelector("select#size").value = state.size;
   loadOptionsEventListeners();
 };
@@ -55,6 +58,10 @@ const getDataLayerNamesFromInputs = () => {
 
 const getWindowWidthFromSelect = () => {
   return parseInt(document.querySelector("select#width").value);
+};
+
+const getWindowHeightFromSelect = () => {
+  return parseInt(document.querySelector("select#height").value);
 };
 
 const getTextSizeFromSelect = () => {
@@ -101,9 +108,15 @@ const loadOptionsEventListeners = () => {
   saveButton.onclick = () => {
     const dataLayerNames = getDataLayerNamesFromInputs();
     const windowWidth = getWindowWidthFromSelect();
+    const windowHeight = getWindowHeightFromSelect();
     const textSize = getTextSizeFromSelect();
     setLoadingThenExecute(saveButton, () =>
-      syncWithChromeStorage({ dataLayerNames, windowWidth, textSize })
+      syncWithChromeStorage({
+        dataLayerNames,
+        windowWidth,
+        windowHeight,
+        textSize,
+      })
     );
   };
 
@@ -117,9 +130,15 @@ const loadOptionsEventListeners = () => {
         "udo",
       ],
       windowWidth = 500,
+      windowHeight = 600,
       textSize = 8;
     setLoadingThenExecute(defaultsButton, () =>
-      syncWithChromeStorage({ dataLayerNames, windowWidth, textSize })
+      syncWithChromeStorage({
+        dataLayerNames,
+        windowWidth,
+        windowHeight,
+        textSize,
+      })
     );
   };
 

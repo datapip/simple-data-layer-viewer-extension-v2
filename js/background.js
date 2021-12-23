@@ -8,11 +8,13 @@
         "udo",
       ],
       windowWidth = 500,
+      windowHeight = 600,
       textSize = 8;
 
     chrome.storage.sync.set({
       dataLayerNames,
       windowWidth,
+      windowHeight,
       textSize,
     });
   });

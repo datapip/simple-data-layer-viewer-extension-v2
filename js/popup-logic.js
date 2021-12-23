@@ -24,12 +24,12 @@ const state = {
 };
 
 chrome.storage.sync.get(
-  ["windowWidth", "textSize"],
-  ({ windowWidth, textSize }) => {
+  ["windowWidth", "windowHeight", "textSize"],
+  ({ windowWidth, windowHeight, textSize }) => {
     if (chrome.runtime.lastError) {
       state.updateError(chrome.runtime.lastError);
     } else {
-      createStyling(windowWidth, textSize);
+      createStyling(windowWidth, windowHeight, textSize);
     }
   }
 );
@@ -60,13 +60,17 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
  * Functions
  */
 
-const createStyling = (windowWidth, textSize) => {
-  const size = !textSize ? `0.9em` : `${textSize / 10}em`;
+const createStyling = (windowWidth, windowHeight, textSize) => {
   const width = !windowWidth ? `auto` : `${windowWidth}px`;
+  const height = !windowHeight ? `auto` : `${windowHeight - 150}px`;
+  const size = !textSize ? `0.9em` : `${textSize / 10}em`;
   const style = document.createElement("style");
   style.innerHTML = `
     html {
       width: ${width} !important;
+    }
+    #layers {
+      height: ${height} !important;
     }
     #layers pre {
       font-size: ${size} !important;
