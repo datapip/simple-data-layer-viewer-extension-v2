@@ -115,7 +115,7 @@ mark {
   padding: 0.75rem;
 }
 
-button {
+button:not(:last-child) {
   border-right: 1px solid whitesmoke !important;
 }
 
