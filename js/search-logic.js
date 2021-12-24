@@ -16,6 +16,7 @@ const search = {
   updateKeyword(keyword) {
     this.resetVisuals();
     this.keyword = keyword;
+    getContent();
     getResults();
   },
   updateMatches(matches) {
@@ -50,7 +51,6 @@ const searchFor = (keyword) => {
   if (!keyword) {
     search.resetAll();
   } else {
-    getContent();
     checkKeyword(keyword);
   }
 };
