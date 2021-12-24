@@ -10,6 +10,7 @@ const state = {
   updateIndex(index) {
     this.index = index;
     setTabsClass();
+    setSearchFocus();
   },
   updateData(data) {
     this.data = data;
@@ -135,6 +136,10 @@ const setTabsClass = () => {
       element.classList.remove("is-active");
     }
   });
+};
+
+const setSearchFocus = () => {
+  document.querySelector("input.search").focus();
 };
 
 const insertTabsFooter = () => {
