@@ -131,7 +131,7 @@ const loadOptionsEventListeners = () => {
       ],
       windowWidth = 500,
       windowHeight = 600,
-      textSize = 8;
+      textSize = 9;
     setLoadingThenExecute(defaultsButton, () =>
       syncWithChromeStorage({
         dataLayerNames,

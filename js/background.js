@@ -9,7 +9,7 @@
       ],
       windowWidth = 500,
       windowHeight = 600,
-      textSize = 8;
+      textSize = 9;
 
     chrome.storage.sync.set({
       dataLayerNames,
