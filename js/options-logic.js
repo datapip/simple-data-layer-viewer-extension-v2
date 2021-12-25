@@ -122,24 +122,19 @@ const loadOptionsEventListeners = () => {
 
   const defaultsButton = document.querySelector("#defaults");
   defaultsButton.onclick = () => {
-    const dataLayerNames = [
-        "dataLayer",
-        "digitalData",
-        "utag_data",
-        "tc_vars",
-        "udo",
-      ],
-      windowWidth = 500,
-      windowHeight = 600,
-      textSize = 9;
-    setLoadingThenExecute(defaultsButton, () =>
-      syncWithChromeStorage({
-        dataLayerNames,
-        windowWidth,
-        windowHeight,
-        textSize,
-      })
-    );
+    chrome.storage.sync.get("defaults", (defaults) => {
+      const {
+        defaults: { dataLayerNames, windowWidth, windowHeight, textSize },
+      } = defaults;
+      setLoadingThenExecute(defaultsButton, () =>
+        syncWithChromeStorage({
+          dataLayerNames,
+          windowWidth,
+          windowHeight,
+          textSize,
+        })
+      );
+    });
   };
 
   document.querySelectorAll("#inputs input").forEach((input) => {

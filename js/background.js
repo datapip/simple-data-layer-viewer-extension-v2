@@ -17,5 +17,14 @@
       windowHeight,
       textSize,
     });
+
+    chrome.storage.sync.set({
+      defaults: {
+        dataLayerNames,
+        windowWidth,
+        windowHeight,
+        textSize,
+      },
+    });
   });
 })();
