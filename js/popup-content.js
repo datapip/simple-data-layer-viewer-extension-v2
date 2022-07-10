@@ -26,10 +26,8 @@ const createTabsContainer = () => {
       </ul>
     </div>
     <div class="content">
-      <div class="blur blur-top"></div>
       <div id="layers">
       </div>
-      <div class="blur blur-bottom"></div>
     </div>  
   `;
 };
