@@ -1,3 +1,28 @@
+const createNotification = () => {
+  return `
+    <div id="modal" class="modal is-active">
+      <div class="modal-background notification-close"></div>
+      <div class="modal-content">
+        <div class="notification is-info">
+          <h2 class="subtitle">Update</h2>
+          <p>Hey there :) I just wanted to inform you that the Simple Data Layer Viewer 
+          is now also available in the Developer tools. Just press F12 and try it.</p>
+          </br>
+          <p>Lastly, I would be very happy about a review or any feedback via the
+          <a href="https://chrome.google.com/webstore/detail/simple-data-layer-viewer/mkdjegdakgimmckobdnfiimhgmabbido" target="_blank">Chrome Web Store</a>
+          or just <a href="mailto:p.a.jaeckle@gmail.com">contact me</a> directly.</p>
+          </br>
+          <p>That's it, thanks and have an awesome day.</p> 
+          </br> 
+          <div class="buttons is-centered">
+            <button class="button is-light is-flex-grow-0 notification-close">Got it</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+};
+
 const createContainer = () => {
   return `
     <div class="card">

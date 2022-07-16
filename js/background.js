@@ -9,13 +9,15 @@
       ],
       windowWidth = 500,
       windowHeight = 600,
-      textSize = 9;
+      textSize = 9,
+      isNotified = false;
 
     chrome.storage.sync.set({
       dataLayerNames,
       windowWidth,
       windowHeight,
       textSize,
+      isNotified,
     });
 
     chrome.storage.sync.set({

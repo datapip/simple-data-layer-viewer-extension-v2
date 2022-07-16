@@ -25,12 +25,13 @@ const state = {
 };
 
 chrome.storage.sync.get(
-  ["windowWidth", "windowHeight", "textSize"],
-  ({ windowWidth, windowHeight, textSize }) => {
+  ["windowWidth", "windowHeight", "textSize", "isNotified"],
+  ({ windowWidth, windowHeight, textSize, isNotified }) => {
     if (chrome.runtime.lastError) {
       state.updateError(chrome.runtime.lastError);
     } else {
       createStyling(windowWidth, windowHeight, textSize);
+      !isNotified && notifyUser();
     }
   }
 );
@@ -60,6 +61,19 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 /**
  * Functions
  */
+
+const notifyUser = () => {
+  const notification = document.querySelector("#notification");
+  notification.innerHTML = createNotification();
+  document.querySelectorAll(".notification-close").forEach((element) => {
+    element.onclick = () => {
+      notification.remove();
+      chrome.storage.sync.set({
+        isNotified: true,
+      });
+    };
+  });
+};
 
 const createStyling = (windowWidth, windowHeight, textSize) => {
   const width = !windowWidth ? `auto` : `${windowWidth}px`;

@@ -10,9 +10,21 @@ div.content {
   background: whitesmoke !important;
 }
 
-/**
-  * Card Header
-  */
+/*
+ * Notification
+ */
+
+#notification .modal-background {
+  background-color: rgba(10, 10, 10, 0.75) !important;
+}
+
+#notification .modal-content {
+  width: 90% !important;
+}
+
+/*
+ * Card
+ */
 
 #options img {
   height: 24px;
@@ -21,17 +33,13 @@ div.content {
 }
 
 /*
- * Tabs Header
+ * Tabs
  */
 
 li.is-active > a {
   background: whitesmoke !important;
   color: #000000 !important;
 }
-
-/*
- * Tabs Content
- */
 
 div#layers {
   height: 450px;
@@ -59,7 +67,7 @@ mark {
 }
 
 /*
- * Renderjson Content
+ * Renderjson
  */
 
 .renderjson .disclosure {
