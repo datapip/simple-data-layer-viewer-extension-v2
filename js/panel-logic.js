@@ -3,8 +3,6 @@ const initiate = () => {
    * Main
    */
 
-  setLoader();
-
   const state = {
     tab: null,
     index: 0,
@@ -65,10 +63,6 @@ const initiate = () => {
   /**
    * Functions
    */
-
-  function setLoader() {
-    document.querySelector(".card-content").innerHTML = createLoader();
-  }
 
   const createStyling = (textSize) => {
     const size = !textSize ? `0.9em` : `${textSize / 10}em`;
@@ -204,8 +198,13 @@ const initiate = () => {
 };
 initiate();
 
+const setLoader = () => {
+  document.querySelector(".card-content").innerHTML = createLoader();
+};
+
 chrome.devtools.network.onNavigated.addListener(() => {
-  initiate();
+  setLoader();
+  setTimeout(initiate, 100);
 });
 
 const loadContainerEventListeners = () => {
@@ -216,6 +215,9 @@ const loadContainerEventListeners = () => {
       window.open(chrome.runtime.getURL("options.html"));
     }
   };
-  document.querySelector("#refresh").onclick = initiate;
+  document.querySelector("#refresh").onclick = () => {
+    setLoader();
+    setTimeout(initiate, 100);
+  };
 };
 loadContainerEventListeners();
