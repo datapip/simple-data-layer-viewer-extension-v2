@@ -1,0 +1,31 @@
+html {
+  width: 100% !important;
+}
+
+#refresh {
+  border-right: none !important;
+}
+
+.card {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.card #icon {
+  height: 36px;
+  margin-top: 6px;
+  margin-left: 6px;
+}
+
+.card .card-header-title {
+  padding-left: 6px;
+}
+
+.card-content {
+  height: 100%;
+}
+
+div#layers {
+  height: calc(100vh - 195px);
+}

@@ -2,7 +2,7 @@
   "name": "Simple Data Layer Viewer",
   "short_name": "Data Layer",
   "description": "Simple extension for displaying the data layer of a website.",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "manifest_version": 3,
   "permissions": ["storage", "activeTab", "scripting"],
   "host_permissions": ["<all_urls>"],
@@ -31,5 +31,6 @@
     "32": "/img/icon.png",
     "48": "/img/icon.png",
     "128": "/img/icon.png"
-  }
+  },
+  "devtools_page": "devtools.html"
 }

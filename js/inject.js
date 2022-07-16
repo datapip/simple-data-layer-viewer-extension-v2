@@ -16,6 +16,9 @@
     document.getElementById("simple-data-layer-viewer-helper").dataset.name
   );
 
+  const messageName = document.getElementById("simple-data-layer-viewer-helper")
+    .dataset.message;
+
   const foundDataLayers = [];
 
   dataLayerNames.forEach((dataLayerName) => {
@@ -24,5 +27,5 @@
       pushToFoundDataLayers(dataLayerName, dataLayerData);
   });
 
-  window.postMessage({ message: "found-data-layers", data: foundDataLayers });
+  window.postMessage({ message: messageName, data: foundDataLayers });
 })();

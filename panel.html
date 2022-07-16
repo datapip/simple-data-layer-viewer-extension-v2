@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/bulma.css" />
+    <link rel="stylesheet" href="/css/popup.css" />
+    <link rel="stylesheet" href="/css/panel.css" />
+    <title>Data Layer Live Changes</title>
+  </head>
+  <body id="container" class="has-background-light">
+    <div class="card">
+      <header class="card-header has-background-info is-radiusless">
+        <img id="icon" src="/img/icon.png" />
+        <p class="card-header-title has-text-light">Simple Data Layer Viewer</p>
+        <a id="options">
+          <img src="/img/gear.png" />
+        </a>
+      </header>
+      <button id="refresh" class="button is-success is-radiusless">
+        Refresh
+      </button>
+      <div class="card-content px-3 pt-3 pb-0">
+        <button
+          style="border: none"
+          class="button is-size-1 is-large is-loading is-fullwidth"
+        ></button>
+      </div>
+      <footer id="footer" class="card-footer"></footer>
+    </div>
+  </body>
+  <script src="/js/renderjson.js"></script>
+  <script src="/js/panel-content.js"></script>
+  <script src="/js/search-logic.js"></script>
+  <script src="/js/panel-logic.js"></script>
+</html>

@@ -10,6 +10,16 @@ div.content {
   background: whitesmoke !important;
 }
 
+/**
+  * Card Header
+  */
+
+#options img {
+  height: 24px;
+  margin-top: 12px;
+  margin-right: 6px;
+}
+
 /*
  * Tabs Header
  */
@@ -26,7 +36,7 @@ li.is-active > a {
 div#layers {
   height: 450px;
   margin-bottom: 0px;
-  overflow: scroll;
+  overflow: auto;
 }
 
 pre {
@@ -122,13 +132,4 @@ button#search:hover {
   z-index: 5;
   bottom: 0;
   right: 0;
-}
-
-button.resize {
-  width: 20px !important;
-  border-right: none !important;
-}
-
-button.resize:not(:last-child) {
-  border-bottom: 1px solid whitesmoke !important;
 }

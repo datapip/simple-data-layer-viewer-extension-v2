@@ -1,5 +1,5 @@
 (() => {
-  const messageName = "found-data-layers";
+  const messageName = "found-data-layers-devtools";
 
   window.onmessage = (event) => {
     if (event.data.message === messageName) {

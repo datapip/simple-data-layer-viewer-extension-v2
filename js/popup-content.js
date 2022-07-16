@@ -5,10 +5,8 @@ const createContainer = () => {
         <p class="card-header-title has-text-light">
           Simple Data Layer Viewer
         </p>
-        <a id="options" role="button" class="navbar-burger has-text-light">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
+        <a id="options">
+          <img src="/img/gear.png" />
         </a>
       </header>
       <div class="card-content px-3 pt-3 pb-0">     
