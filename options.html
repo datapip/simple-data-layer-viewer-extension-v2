@@ -28,7 +28,7 @@
               <div id="inputs" class="content">
                 <div class="control my-3">
                   <input
-                    class="input is-radiusless"
+                    class="input layer is-radiusless"
                     type="text"
                     pattern="^[^\\[\\] \\d]+$"
                     value=""
@@ -36,7 +36,7 @@
                 </div>
                 <div class="control my-3">
                   <input
-                    class="input is-radiusless"
+                    class="input layer is-radiusless"
                     type="text"
                     pattern="^[^\\[\\] \\d]+$"
                     value=""
@@ -44,7 +44,7 @@
                 </div>
                 <div class="control my-3">
                   <input
-                    class="input is-radiusless"
+                    class="input layer is-radiusless"
                     type="text"
                     pattern="^[^\\[\\] \\d]+$"
                     value=""
@@ -52,7 +52,7 @@
                 </div>
                 <div class="control my-3">
                   <input
-                    class="input is-radiusless"
+                    class="input layer is-radiusless"
                     type="text"
                     pattern="^[^\\[\\] \\d]+$"
                     value=""
@@ -60,7 +60,7 @@
                 </div>
                 <div class="control my-3">
                   <input
-                    class="input is-radiusless"
+                    class="input layer is-radiusless"
                     type="text"
                     pattern="^[^\\[\\] \\d]+$"
                     value=""
@@ -85,13 +85,14 @@
 
             <div class="column is-half">
               <div class="content">
-                <p class="subtitle">Edit popup window width</p>
+                <p class="subtitle">Edit popup width and height</p>
                 <p class="description">
                   Set the extensions window to be dynamic or have a specific
-                  width:
+                  width and height:
                 </p>
               </div>
               <div class="control">
+                <p>width:</p>
                 <div class="select is-fullwidth">
                   <select id="width" class="is-radiusless">
                     <option value="0">dynamic</option>
@@ -103,9 +104,19 @@
                     <option value="800">800px</option>
                   </select>
                 </div>
+                <p class="mt-2">height:</p>
+                <div class="select is-fullwidth">
+                  <select id="height" class="is-radiusless">
+                    <option value="250">250px</option>
+                    <option value="300">300px</option>
+                    <option value="400">400px</option>
+                    <option value="500">500px</option>
+                    <option value="600">600px</option>
+                  </select>
+                </div>
               </div>
 
-              <hr />
+              <!-- <hr />
 
               <div class="content">
                 <p class="subtitle">Edit popup window height</p>
@@ -123,7 +134,7 @@
                     <option value="600">600px</option>
                   </select>
                 </div>
-              </div>
+              </div> -->
 
               <hr />
 
@@ -153,6 +164,23 @@
                     <option value="15">150%</option>
                   </select>
                 </div>
+              </div>
+
+              <hr />
+
+              <div class="content">
+                <p class="subtitle">Edit auto-refresh interval</p>
+                <p class="description">
+                  Set the auto-refresh interval in ms for the developer tools
+                  panel:
+                </p>
+              </div>
+              <div class="control">
+                <input
+                  id="interval"
+                  type="number"
+                  class="input is-radiusless"
+                />
               </div>
             </div>
           </div>

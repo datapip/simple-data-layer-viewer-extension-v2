@@ -6,6 +6,22 @@ html {
   border-right: none !important;
 }
 
+.is-circle {
+  height: 14px;
+  width: 14px;
+  margin-left: 6px;
+  background-color: #dadada;
+  border-radius: 50%;
+}
+
+.is-hidden {
+  display: none !important;
+}
+
+.updated {
+  background-color: #48c78e;
+}
+
 .card {
   height: 100vh;
   display: flex;

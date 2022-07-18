@@ -1,5 +1,5 @@
 (() => {
-  const messageName = "found-data-layers-devtools";
+  const messageName = "update-data-layers";
 
   window.onmessage = (event) => {
     if (event.data.message === messageName) {
@@ -7,20 +7,21 @@
     }
   };
 
-  const createInjectionScript = (dataLayerNames) => {
+  const createInjectionScript = (dataLayerNames, refreshInterval) => {
     const script = document.createElement("script");
-    script.id = "simple-data-layer-viewer-helper";
-    script.src = chrome.runtime.getURL("/js/inject.js");
+    script.id = "simple-data-layer-viewer-live-helper";
+    script.src = chrome.runtime.getURL("/js/inject-devtools.js");
     script.dataset.name = JSON.stringify(dataLayerNames);
     script.dataset.message = messageName;
-    script.onload = () => {
-      document.querySelector(`#${script.id}`).remove();
-    };
+    script.dataset.interval = refreshInterval;
     return script;
   };
 
-  chrome.storage.sync.get("dataLayerNames", ({ dataLayerNames }) => {
-    const script = createInjectionScript(dataLayerNames);
-    document.head.append(script);
-  });
+  chrome.storage.sync.get(
+    ["dataLayerNames", "refreshInterval"],
+    ({ dataLayerNames, refreshInterval }) => {
+      const script = createInjectionScript(dataLayerNames, refreshInterval);
+      document.head.append(script);
+    }
+  );
 })();

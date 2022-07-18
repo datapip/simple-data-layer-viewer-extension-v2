@@ -7,12 +7,14 @@ const state = {
   width: null,
   height: null,
   size: null,
+  interval: null,
   error: null,
-  updateData(names, width, height, size) {
+  updateData(names, width, height, size, interval) {
     this.names = names;
     this.width = width;
     this.height = height;
     this.size = size;
+    this.interval = interval;
     insertOptionsContent();
   },
   updateError(error) {
@@ -22,12 +24,30 @@ const state = {
 };
 
 chrome.storage.sync.get(
-  ["dataLayerNames", "windowWidth", "windowHeight", "textSize"],
-  ({ dataLayerNames, windowWidth, windowHeight, textSize }) => {
+  [
+    "dataLayerNames",
+    "windowWidth",
+    "windowHeight",
+    "textSize",
+    "refreshInterval",
+  ],
+  ({
+    dataLayerNames,
+    windowWidth,
+    windowHeight,
+    textSize,
+    refreshInterval,
+  }) => {
     if (chrome.runtime.lastError) {
       state.updateError(chrome.runtime.lastError);
     } else {
-      state.updateData(dataLayerNames, windowWidth, windowHeight, textSize);
+      state.updateData(
+        dataLayerNames,
+        windowWidth,
+        windowHeight,
+        textSize,
+        refreshInterval
+      );
     }
   }
 );
@@ -41,6 +61,7 @@ const insertOptionsContent = () => {
   document.querySelector("select#width").value = state.width;
   document.querySelector("select#height").value = state.height;
   document.querySelector("select#size").value = state.size;
+  document.querySelector("input#interval").value = state.interval;
   loadOptionsEventListeners();
 };
 
@@ -66,6 +87,10 @@ const getWindowHeightFromSelect = () => {
 
 const getTextSizeFromSelect = () => {
   return parseInt(document.querySelector("select#size").value);
+};
+
+const getRefreshIntervalFromInput = () => {
+  return parseInt(document.querySelector("input#interval").value);
 };
 
 const setLoadingThenExecute = (button, logic) => {
@@ -110,12 +135,14 @@ const loadOptionsEventListeners = () => {
     const windowWidth = getWindowWidthFromSelect();
     const windowHeight = getWindowHeightFromSelect();
     const textSize = getTextSizeFromSelect();
+    const refreshInterval = getRefreshIntervalFromInput();
     setLoadingThenExecute(saveButton, () =>
       syncWithChromeStorage({
         dataLayerNames,
         windowWidth,
         windowHeight,
         textSize,
+        refreshInterval,
       })
     );
   };
@@ -124,7 +151,13 @@ const loadOptionsEventListeners = () => {
   defaultsButton.onclick = () => {
     chrome.storage.sync.get("defaults", (defaults) => {
       const {
-        defaults: { dataLayerNames, windowWidth, windowHeight, textSize },
+        defaults: {
+          dataLayerNames,
+          windowWidth,
+          windowHeight,
+          textSize,
+          refreshInterval,
+        },
       } = defaults;
       setLoadingThenExecute(defaultsButton, () =>
         syncWithChromeStorage({
@@ -132,6 +165,7 @@ const loadOptionsEventListeners = () => {
           windowWidth,
           windowHeight,
           textSize,
+          refreshInterval,
         })
       );
     });

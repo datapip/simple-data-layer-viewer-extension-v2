@@ -10,6 +10,7 @@
       windowWidth = 500,
       windowHeight = 600,
       textSize = 9,
+      refreshInterval = 250,
       isNotified = false;
 
     chrome.storage.sync.set({
@@ -17,6 +18,7 @@
       windowWidth,
       windowHeight,
       textSize,
+      refreshInterval,
       isNotified,
     });
 
@@ -25,6 +27,7 @@
         dataLayerNames,
         windowWidth,
         windowHeight,
+        refreshInterval,
         textSize,
       },
     });

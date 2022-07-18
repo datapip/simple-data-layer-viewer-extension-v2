@@ -1,27 +1,20 @@
 const initiate = () => {
   /**
-   * State
+   * Main
    */
+
   const state = {
-    init: false,
-    refresh: true,
     tab: null,
-    index: null,
-    data: {},
+    index: 0,
+    data: null,
     error: null,
     updateIndex(index) {
       this.index = index;
       setTabsClass();
     },
     updateData(data) {
-      if (this.init) {
-        this.data = Object.assign(this.data, data);
-        this.refresh && updateContent(data);
-      } else {
-        this.data = data;
-        this.index = Object.keys(data)[0];
-        this.refresh && loadContent();
-      }
+      this.data = data;
+      loadContent();
     },
     updateError(error) {
       this.error = error;
@@ -82,17 +75,8 @@ const initiate = () => {
   };
 
   const loadContent = () => {
-    if (Object.keys(state.data).length) {
+    if (state.data.length) {
       loadLayerContent();
-      state.init = true;
-    } else {
-      insertFailureContent();
-    }
-  };
-
-  const updateContent = (data) => {
-    if (Object.keys(data).length) {
-      updateLayerContent(data);
     } else {
       insertFailureContent();
     }
@@ -109,21 +93,6 @@ const initiate = () => {
     insertTabsFooter();
   };
 
-  const updateLayerContent = (data) => {
-    for (let [name, layer] of Object.entries(data)) {
-      const current = document.querySelector(`pre[data-name='${name}']`);
-      const scope = current.dataset.scope === "0" ? 0 : "all";
-      const updated = createTabContentNode(name, layer, scope);
-      updated.classList = current.classList;
-      document.querySelector("#layers").replaceChild(updated, current);
-      const circle = document.querySelector(`a[data-name="${name}"] span`);
-      circle.classList.add("updated");
-      setTimeout(() => {
-        circle.classList.remove("updated");
-      }, 250);
-    }
-  };
-
   const insertTabsContainer = () => {
     document.querySelector("div.card-content").innerHTML =
       createTabsContainer();
@@ -135,32 +104,34 @@ const initiate = () => {
   };
 
   const insertTabsContent = () => {
-    for (let [name, data] of Object.entries(state.data)) {
-      const node = createTabContentNode(name, data);
+    state.data.map((data, index) => {
+      const node = createTabContentNode(data.layer, index);
       document.querySelector("#layers").appendChild(node);
-    }
+    });
     setTabsClass();
-    loadAutoRefreshEventListeners();
   };
 
-  const createTabContentNode = (name, data, scope = "all") => {
+  const createTabContentNode = (layer, index, scope = "all") => {
     const node = renderjson.set_icons("▼ ", "▲ ").set_show_to_level(scope)(
-      JSON.parse(data)
+      JSON.parse(layer)
     );
-    node.dataset.name = name;
-    node.dataset.scope = scope;
+    node.dataset.id = index;
     return node;
   };
 
   const setTabsClass = () => {
-    document.querySelectorAll(`li[data-name],pre[data-name]`).forEach((tab) => {
-      if (tab.dataset.name === state.index) {
-        tab.classList.add("is-active");
+    document.querySelectorAll(`[data-id]`).forEach((element) => {
+      if (parseInt(element.dataset.id) === state.index) {
+        element.classList.add("is-active");
       } else {
-        tab.classList.remove("is-active");
+        element.classList.remove("is-active");
       }
     });
   };
+
+  // const setSearchFocus = () => {
+  //   document.querySelector("input.search").focus();
+  // };
 
   const insertTabsFooter = () => {
     document.querySelector("#footer").innerHTML = createFooter();
@@ -181,38 +152,23 @@ const initiate = () => {
     const currentNode = document.querySelector("pre.is-active");
     const nodeContainer = document.querySelector("#layers");
     const newNode = createTabContentNode(
-      state.index,
-      state.data[state.index],
+      state.data[state.index].layer,
+      currentNode.dataset.id,
       collapse
     );
     newNode.classList.add("is-active");
-    nodeContainer.replaceChild(newNode, currentNode);
+    nodeContainer.insertBefore(newNode, currentNode);
+    currentNode.remove();
   };
 
   /**
    * Event Listeners
    */
 
-  const loadAutoRefreshEventListeners = () => {
-    const pause = document.querySelector("#pause");
-    const resume = document.querySelector("#resume");
-    pause.onclick = () => {
-      state.refresh = false;
-      pause.classList.add("is-hidden");
-      resume.classList.remove("is-hidden");
-    };
-    resume.onclick = () => {
-      state.refresh = true;
-      loadContent();
-      resume.classList.add("is-hidden");
-      pause.classList.remove("is-hidden");
-    };
-  };
-
   const loadTabsHeaderEventListeners = () => {
     document.querySelectorAll(".tabs li").forEach((li) => {
       li.onclick = (element) => {
-        const index = element.target.parentNode.dataset.name;
+        const index = parseInt(element.target.parentElement.dataset.id);
         state.updateIndex(index);
       };
     });
@@ -231,7 +187,7 @@ const initiate = () => {
 
     document.querySelector("#copy").onclick = () => {
       let textarea = document.createElement("textarea");
-      textarea.textContent = state.data[state.index];
+      textarea.textContent = state.data[state.index].layer;
       document.body.appendChild(textarea);
       textarea.select();
       document.execCommand("copy");
@@ -258,6 +214,10 @@ const loadContainerEventListeners = () => {
     } else {
       window.open(chrome.runtime.getURL("options.html"));
     }
+  };
+  document.querySelector("#refresh").onclick = () => {
+    setLoader();
+    setTimeout(initiate, 100);
   };
 };
 loadContainerEventListeners();
