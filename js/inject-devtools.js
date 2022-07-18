@@ -13,6 +13,17 @@
     }, window);
   };
 
+  dataLayerNames.forEach((dataLayerName) => {
+    const dataLayerData = referenceDataLayerFromWindow(dataLayerName);
+    const stringifiedDataLayerData = JSON.stringify(dataLayerData);
+    if (typeof dataLayerData === "object") {
+      foundDataLayers[dataLayerName] = stringifiedDataLayerData;
+    }
+  });
+  if (Object.keys(foundDataLayers).length) {
+    window.postMessage({ message: messageName, data: foundDataLayers });
+  }
+
   setInterval(() => {
     let updateFound = false;
     const updatedDataLayers = {};
