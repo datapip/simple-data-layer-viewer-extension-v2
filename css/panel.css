@@ -2,10 +2,6 @@ html {
   width: 100% !important;
 }
 
-#refresh {
-  border-right: none !important;
-}
-
 .is-circle {
   height: 14px;
   width: 14px;

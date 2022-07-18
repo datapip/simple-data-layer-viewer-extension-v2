@@ -7,6 +7,23 @@ const createLoader = () => {
     `;
 };
 
+const createRefreshButtons = () => {
+  return `
+    <button
+      id="pause"
+      class="button is-success is-light is-radiusless is-fullwidth"
+    >
+      Pause auto-refresh
+    </button>
+    <button
+      id="resume"
+      class="button is-hidden is-success is-radiusless is-fullwidth"
+    >
+      Resume auto-refresh
+    </button>
+  `;
+};
+
 const createTabsContainer = () => {
   return `
       <div class="tabs is-boxed mb-0">
