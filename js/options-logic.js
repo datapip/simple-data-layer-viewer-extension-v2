@@ -74,7 +74,9 @@ const showErrorModal = () => {
 };
 
 const getDataLayerNamesFromInputs = () => {
-  return [...document.querySelectorAll("input")].map((input) => input.value);
+  return [...document.querySelectorAll("input.layer")].map(
+    (input) => input.value
+  );
 };
 
 const getWindowWidthFromSelect = () => {

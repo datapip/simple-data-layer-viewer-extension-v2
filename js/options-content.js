@@ -3,7 +3,7 @@ const createInputs = (inputs) => {
     .map(
       (input) =>
         `<div class="control my-3">
-          <input class="input is-radiusless" type="text" pattern="^[^\\[\\] \\d]+$" value="${input}" />
+          <input class="input layer is-radiusless" type="text" pattern="^[^\\[\\] \\d]+$" value="${input}" />
         </div>`
     )
     .join("");
