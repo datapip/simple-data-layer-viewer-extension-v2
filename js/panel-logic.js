@@ -90,6 +90,7 @@ const initialLayerContent = () => {
 const updateLayerContent = (data = state.data) => {
   for (let [name, layer] of Object.entries(data)) {
     const current = document.querySelector(`pre[data-name='${name}']`);
+    if (!current) return createSpecificLayerContent(name, layer);
     const scope = current.dataset.scope === "0" ? 0 : "all";
     const updated = createTabContentNode(name, layer, scope);
     updated.classList = current.classList;
@@ -102,6 +103,12 @@ const updateLayerContent = (data = state.data) => {
   }
 };
 
+const createSpecificLayerContent = (name, layer) => {
+  insertTabHeader(name);
+  insertTabContent(name, layer);
+  loadTabsHeaderEventListeners();
+};
+
 const insertRefreshButtons = () => {
   document.querySelector("#refresh").innerHTML = createRefreshButtons();
   loadAutoRefreshEventListeners();
@@ -112,16 +119,34 @@ const insertTabsContainer = () => {
 };
 
 const insertTabsHeader = () => {
-  document.querySelector("#tabs").innerHTML = createTabsHeader(state.data);
+  for (let name of Object.keys(state.data)) {
+    insertTabHeader(name);
+  }
   loadTabsHeaderEventListeners();
+};
+
+const insertTabHeader = (name) => {
+  const node = createTabHeaderNode(name);
+  document.querySelector("#tabs").appendChild(node);
+};
+
+const createTabHeaderNode = (name) => {
+  const node = document.createElement("li");
+  node.innerHTML = `<a data-name="${name}">${name}<span class="is-circle"></span></a>`;
+  node.dataset.name = name;
+  return node;
 };
 
 const insertTabsContent = () => {
   for (let [name, data] of Object.entries(state.data)) {
-    const node = createTabContentNode(name, data);
-    document.querySelector("#layers").appendChild(node);
+    insertTabContent(name, data);
   }
   setTabsClass();
+};
+
+const insertTabContent = (name, data) => {
+  const node = createTabContentNode(name, data);
+  document.querySelector("#layers").appendChild(node);
 };
 
 const createTabContentNode = (name, data, scope = "all") => {
@@ -149,21 +174,7 @@ const insertTabsFooter = () => {
 };
 
 const insertErrorContent = () => {
-  document.querySelector("div.card-content").innerHTML = createError(
-    state.error.message
-  );
-};
-
-const collapseTabsContent = (collapse) => {
-  const currentNode = document.querySelector("pre.is-active");
-  const nodeContainer = document.querySelector("#layers");
-  const newNode = createTabContentNode(
-    state.index,
-    state.data[state.index],
-    collapse
-  );
-  newNode.classList.add("is-active");
-  nodeContainer.replaceChild(newNode, currentNode);
+  document.querySelector("#main").innerHTML = createError(state.error.message);
 };
 
 /**
@@ -196,6 +207,18 @@ const loadTabsHeaderEventListeners = () => {
 
 const loadTabsFooterEventListeners = () => {
   loadSearchEventListeners();
+
+  const collapseTabsContent = (collapse) => {
+    const currentNode = document.querySelector("pre.is-active");
+    const nodeContainer = document.querySelector("#layers");
+    const newNode = createTabContentNode(
+      state.index,
+      state.data[state.index],
+      collapse
+    );
+    newNode.classList.add("is-active");
+    nodeContainer.replaceChild(newNode, currentNode);
+  };
 
   document.querySelector("#collapse").onclick = () => {
     collapseTabsContent(0);

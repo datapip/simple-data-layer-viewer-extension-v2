@@ -37,18 +37,6 @@ const createTabsContainer = () => {
     `;
 };
 
-const createTabsHeader = (data) => {
-  const result = [];
-  for (let key of Object.keys(data)) {
-    result.push(`
-      <li data-name="${key}">
-        <a data-name="${key}">${key}<span class="is-circle"></span></a>
-      </li>
-    `);
-  }
-  return result.join("");
-};
-
 const createFooter = () => {
   return `
       <div class="field has-addons m-0">
