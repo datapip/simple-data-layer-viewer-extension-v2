@@ -20,8 +20,8 @@
               <div class="content">
                 <p class="subtitle">Edit data layer names</p>
                 <p class="description">
-                  Change names or rearrange order of data layer objects to
-                  search for:
+                  Change, add, remove names or rearrange order of data layer
+                  objects to search for:
                 </p>
               </div>
 
@@ -71,13 +71,44 @@
               <div class="content">
                 <blockquote>
                   <p class="description is-size-7">
-                    ⓘ You can target nested objects as follows:
+                    ⓘ You can target nested objects with dot notation as
+                    follows:
                     <br /><br />
                     <span class="is-family-monospace has-text-weight-semibold">
                       digitalData.page.pageInfo
                     </span>
                   </p>
                 </blockquote>
+              </div>
+
+              <hr />
+
+              <div class="content">
+                <p class="subtitle">Edit data layer text size</p>
+                <p class="description">
+                  Set the default text size of the displayed data layer content:
+                </p>
+              </div>
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select id="size" class="is-radiusless">
+                    <option value="1">10%</option>
+                    <option value="2">20%</option>
+                    <option value="3">30%</option>
+                    <option value="4">40%</option>
+                    <option value="5">50%</option>
+                    <option value="6">60%</option>
+                    <option value="7">70%</option>
+                    <option value="8">80%</option>
+                    <option value="9">90%</option>
+                    <option value="10">100%</option>
+                    <option value="11">110%</option>
+                    <option value="12">120%</option>
+                    <option value="13">130%</option>
+                    <option value="14">140%</option>
+                    <option value="15">150%</option>
+                  </select>
+                </div>
               </div>
             </div>
 
@@ -92,7 +123,7 @@
                 </p>
               </div>
               <div class="control">
-                <p>width:</p>
+                <p class="mb-1">width:</p>
                 <div class="select is-fullwidth">
                   <select id="width" class="is-radiusless">
                     <option value="0">dynamic</option>
@@ -104,7 +135,7 @@
                     <option value="800">800px</option>
                   </select>
                 </div>
-                <p class="mt-2">height:</p>
+                <p class="mt-4 mb-1">height:</p>
                 <div class="select is-fullwidth">
                   <select id="height" class="is-radiusless">
                     <option value="250">250px</option>
@@ -139,48 +170,32 @@
               <hr />
 
               <div class="content">
-                <p class="subtitle">Edit data layer text size</p>
-                <p class="description">
-                  Set the default text size of the displayed data layer content:
-                </p>
-              </div>
-              <div class="control">
-                <div class="select is-fullwidth">
-                  <select id="size" class="is-radiusless">
-                    <option value="1">10%</option>
-                    <option value="2">20%</option>
-                    <option value="3">30%</option>
-                    <option value="4">40%</option>
-                    <option value="5">50%</option>
-                    <option value="6">60%</option>
-                    <option value="7">70%</option>
-                    <option value="8">80%</option>
-                    <option value="9">90%</option>
-                    <option value="10">100%</option>
-                    <option value="11">110%</option>
-                    <option value="12">120%</option>
-                    <option value="13">130%</option>
-                    <option value="14">140%</option>
-                    <option value="15">150%</option>
-                  </select>
-                </div>
-              </div>
-
-              <hr />
-
-              <div class="content">
                 <p class="subtitle">Edit auto-refresh interval</p>
                 <p class="description">
-                  Set the auto-refresh interval in ms for the developer tools
-                  panel:
+                  Set the auto-refresh interval in milliseconds for the
+                  developer tools panel.
                 </p>
               </div>
               <div class="control">
                 <input
                   id="interval"
                   type="number"
-                  class="input is-radiusless"
+                  class="input is-radiusless mb-5"
                 />
+              </div>
+
+              <div class="content">
+                <blockquote>
+                  <p class="description is-size-7">
+                    ⓘ Each data layer change is indicated with a green circle:
+                    <br /><br />
+                    <span
+                      height="14px"
+                      width="14px"
+                      class="is-circle updated"
+                    ></span>
+                  </p>
+                </blockquote>
               </div>
             </div>
           </div>
