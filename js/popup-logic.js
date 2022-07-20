@@ -18,7 +18,6 @@ const state = {
   },
   updateError(error) {
     this.error = error;
-    insertContainer();
     loadError();
   },
 };
@@ -159,13 +158,11 @@ const insertTabsFooter = () => {
 };
 
 const insertFailureContent = () => {
-  document.querySelector("div.card-content").innerHTML = createFailure();
+  document.querySelector("#main").innerHTML = createFailure();
 };
 
 const insertErrorContent = () => {
-  document.querySelector("div.card-content").innerHTML = createError(
-    state.error.message
-  );
+  document.querySelector("#main").innerHTML = createError(state.error.message);
 };
 
 const collapseTabsContent = (collapse) => {
