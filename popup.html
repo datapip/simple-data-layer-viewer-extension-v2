@@ -10,14 +10,23 @@
 
   <body>
     <main id="container">
-      <section class="hero is-fullheight">
-        <div class="hero-body">
+      <div class="card">
+        <header class="card-header has-background-info is-radiusless">
+          <p class="card-header-title has-text-light">
+            Simple Data Layer Viewer
+          </p>
+          <a id="options">
+            <img src="/img/gear.png" />
+          </a>
+        </header>
+        <section id="main" class="card-content px-3 pt-3 pb-0">
           <button
             style="border: none"
             class="button is-size-2 is-large is-loading is-fullwidth"
           ></button>
-        </div>
-      </section>
+        </section>
+        <footer id="footer" class="card-footer"></footer>
+      </div>
     </main>
     <div id="notification"></div>
   </body>

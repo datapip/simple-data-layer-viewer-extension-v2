@@ -14,7 +14,6 @@ const state = {
   },
   updateData(data) {
     this.data = data;
-    insertContainer();
     loadContent();
   },
   updateError(error) {
@@ -66,7 +65,7 @@ const notifyUser = () => {
   const notification = document.querySelector("#notification");
   notification.innerHTML = createNotification();
   notification.style.height = `${
-    document.querySelector("#notification .modal-content").offsetHeight
+    document.querySelector("#notification .notification").offsetHeight
   }px`;
   document.querySelectorAll(".notification-close").forEach((element) => {
     element.onclick = () => {
@@ -96,11 +95,6 @@ const createStyling = (windowWidth, windowHeight, textSize) => {
   document.head.appendChild(style);
 };
 
-const insertContainer = () => {
-  document.querySelector("#container").innerHTML = createContainer();
-  loadContainerEventListeners();
-};
-
 const loadContent = () => {
   if (state.data.length) {
     loadLayerContent();
@@ -121,7 +115,7 @@ const loadLayerContent = () => {
 };
 
 const insertTabsContainer = () => {
-  document.querySelector("div.card-content").innerHTML = createTabsContainer();
+  document.querySelector("#main").innerHTML = createTabsContainer();
 };
 
 const insertTabsHeader = () => {
@@ -176,30 +170,18 @@ const insertErrorContent = () => {
 
 const collapseTabsContent = (collapse) => {
   const currentNode = document.querySelector("pre.is-active");
-  const nodeContainer = document.querySelector("#layers");
   const newNode = createTabContentNode(
     state.data[state.index].layer,
     currentNode.dataset.id,
     collapse
   );
   newNode.classList.add("is-active");
-  nodeContainer.insertBefore(newNode, currentNode);
-  currentNode.remove();
+  document.querySelector("#layers").replaceChild(newNode, currentNode);
 };
 
 /**
  * Event Listeners
  */
-
-const loadContainerEventListeners = () => {
-  document.querySelector("#options").onclick = () => {
-    if (chrome.runtime.openOptionsPage) {
-      chrome.runtime.openOptionsPage();
-    } else {
-      window.open(chrome.runtime.getURL("options.html"));
-    }
-  };
-};
 
 const loadTabsHeaderEventListeners = () => {
   document.querySelectorAll(".tabs li").forEach((li) => {
@@ -224,4 +206,34 @@ const loadTabsFooterEventListeners = () => {
   document.querySelector("#copy").onclick = () => {
     navigator.clipboard.writeText(state.data[state.index].layer);
   };
+
+  document.querySelector("#tab").onclick = async () => {
+    let tabId;
+    await chrome.tabs.create(
+      {
+        active: false,
+        url: "expand.html",
+      },
+      (tab) => {
+        tabId = tab.id;
+      }
+    );
+    const awaitTab = setInterval(async () => {
+      const tab = await chrome.tabs.get(tabId);
+      if (tab.status === "complete") {
+        chrome.tabs.sendMessage(tabId, JSON.stringify(state.data[state.index]));
+        clearInterval(awaitTab);
+      }
+    }, 100);
+  };
 };
+
+(() => {
+  document.querySelector("#options").onclick = () => {
+    if (chrome.runtime.openOptionsPage) {
+      chrome.runtime.openOptionsPage();
+    } else {
+      window.open(chrome.runtime.getURL("options.html"));
+    }
+  };
+})();

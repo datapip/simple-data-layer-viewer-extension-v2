@@ -210,14 +210,13 @@ const loadTabsFooterEventListeners = () => {
 
   const collapseTabsContent = (collapse) => {
     const currentNode = document.querySelector("pre.is-active");
-    const nodeContainer = document.querySelector("#layers");
     const newNode = createTabContentNode(
       state.index,
       state.data[state.index],
       collapse
     );
     newNode.classList.add("is-active");
-    nodeContainer.replaceChild(newNode, currentNode);
+    document.querySelector("#layers").replaceChild(newNode, currentNode);
   };
 
   document.querySelector("#collapse").onclick = () => {

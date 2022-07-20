@@ -141,3 +141,35 @@ button#search:hover {
   bottom: 0;
   right: 0;
 }
+
+#tab {
+  padding: 0 !important;
+}
+
+.expand {
+  height: 28px;
+  width: 28px;
+  position: relative;
+}
+
+.expand::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  bottom: 4px;
+  height: 40%;
+  width: 40%;
+  border-bottom: 1px solid white;
+  border-left: 1px solid white;
+}
+
+.expand::before {
+  content: "";
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  height: 40%;
+  width: 40%;
+  border-top: 1px solid white;
+  border-right: 1px solid white;
+}

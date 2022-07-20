@@ -80,6 +80,7 @@ const createFooter = () => {
     <button id="collapse" class="button is-info is-radiusless">Collapse</button>
     <button id="expand" class="button is-info is-radiusless">Expand</button>
     <button id="copy" class="button is-info is-radiusless">Copy</button>
+    <button id="tab" class="button is-info is-radiusless"><div class="expand"></div></button>
   `;
 };
 
