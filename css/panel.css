@@ -18,6 +18,17 @@ html {
   background-color: #48c78e;
 }
 
+.is-loading {
+  height: 100% !important;
+}
+
+.is-loading::after {
+  height: 2em !important;
+  width: 2em !important;
+  top: unset !important;
+  left: unset !important;
+}
+
 .card {
   height: 100vh;
   display: flex;
