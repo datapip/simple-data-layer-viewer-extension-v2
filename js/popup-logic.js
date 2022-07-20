@@ -65,6 +65,9 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 const notifyUser = () => {
   const notification = document.querySelector("#notification");
   notification.innerHTML = createNotification();
+  notification.style.height = `${
+    document.querySelector("#notification .modal-content").offsetHeight
+  }px`;
   document.querySelectorAll(".notification-close").forEach((element) => {
     element.onclick = () => {
       notification.remove();
