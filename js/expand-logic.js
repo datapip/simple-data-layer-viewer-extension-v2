@@ -28,9 +28,7 @@ const setURL = () => {
 const setLayerContent = () => {
   const node = createTabContentNode(state.index, state.data, "all");
   node.classList.add("is-active");
-  document
-    .querySelector("#layers")
-    .replaceChild(node, document.querySelector("#info"));
+  document.querySelector("#layers").append(node);
 };
 
 const createTabContentNode = (name, data, scope = "all") => {
