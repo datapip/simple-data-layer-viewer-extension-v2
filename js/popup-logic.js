@@ -61,10 +61,11 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
  */
 
 const notifyUser = () => {
+  const main = document.querySelector("#main");
   const notification = document.querySelector("#notification");
   notification.innerHTML = createNotification();
-  notification.style.height = `${
-    document.querySelector("#notification .notification").offsetHeight
+  main.style.minHeight = `${
+    document.querySelector("#notification .message").offsetHeight + 120
   }px`;
   document.querySelectorAll(".notification-close").forEach((element) => {
     element.onclick = () => {
@@ -72,6 +73,7 @@ const notifyUser = () => {
       chrome.storage.sync.set({
         isNotified: true,
       });
+      main.style.minHeight = "unset";
     };
   });
 };
