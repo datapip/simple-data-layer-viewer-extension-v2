@@ -5,19 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/bulma.css" />
     <link rel="stylesheet" href="/css/popup.css" />
-    <link rel="stylesheet" href="/css/panel.css" />
+    <link rel="stylesheet" href="/css/expand.css" />
     <title></title>
   </head>
   <body id="container" class="has-background-light">
     <div class="card">
-      <header class="card-header has-background-info is-radiusless">
-        <img id="icon" src="/img/icon.png" />
-        <p class="card-header-title has-text-light">Simple Data Layer Viewer</p>
+      <header
+        class="card-header has-background-info is-radiusless is-flex-direction-column is-sticky-top"
+      >
+        <div class="is-flex">
+          <img id="icon" src="/img/icon.png" />
+          <p class="card-header-title has-text-light">
+            Simple Data Layer Viewer - Snapshot
+          </p>
+        </div>
+        <div
+          id="url"
+          class="p-1 has-background-grey-lighter has-text-grey has-text-centered"
+        >
+          ...
+        </div>
       </header>
-      <section id="refresh"></section>
-      <section id="main" class="card-content px-3 pt-3 pb-0"></section>
+      <main id="layers" class="card-content px-3 pt-3 pb-0">
+        <div id="info" class="has-text-centered">
+          Please open a data layer snapshot from the extension popup.
+        </div>
+      </main>
+      <footer id="footer" class="card-footer is-sticky-bottom">
+        <div class="field has-addons m-0">
+          <div class="control">
+            <input
+              class="input search is-radiusless is-borderless pr-0"
+              type="text"
+              placeholder="Search key or value"
+            />
+            <span id="results" class="has-text-grey"></span>
+          </div>
+          <div class="control">
+            <button
+              id="search"
+              class="button is-outlined is-radiusless has-text-info"
+            >
+              ▼
+            </button>
+          </div>
+        </div>
+        <button id="collapse" class="button is-info is-radiusless">
+          Collapse
+        </button>
+        <button id="expand" class="button is-info is-radiusless">Expand</button>
+        <button id="copy" class="button is-info is-radiusless">Copy</button>
+      </footer>
     </div>
   </body>
   <script src="/js/renderjson.js"></script>
+  <script src="/js/search-logic.js"></script>
   <script src="/js/expand-logic.js"></script>
 </html>

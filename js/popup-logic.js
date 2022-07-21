@@ -7,6 +7,7 @@ const state = {
   index: 0,
   data: null,
   error: null,
+  url: null,
   updateIndex(index) {
     this.index = index;
     setTabsClass();
@@ -36,6 +37,7 @@ chrome.storage.sync.get(
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.message === "found-data-layers" && sender.tab.id === state.tab) {
+    state.url = request.url;
     state.updateData(request.data);
   }
 });
@@ -207,6 +209,7 @@ const loadTabsFooterEventListeners = () => {
   };
 
   document.querySelector("#tab").onclick = async () => {
+    console.log(state.url);
     let tabId;
     await chrome.tabs.create(
       {
@@ -220,8 +223,14 @@ const loadTabsFooterEventListeners = () => {
     const awaitTab = setInterval(async () => {
       const tab = await chrome.tabs.get(tabId);
       if (tab.status === "complete") {
-        chrome.tabs.sendMessage(tabId, JSON.stringify(state.data[state.index]));
+        chrome.tabs.sendMessage(
+          tabId,
+          JSON.stringify({ data: state.data[state.index], url: state.url })
+        );
         clearInterval(awaitTab);
+        chrome.tabs.update(tabId, {
+          active: true,
+        });
       }
     }, 100);
   };

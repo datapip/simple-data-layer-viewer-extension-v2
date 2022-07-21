@@ -41,7 +41,7 @@ li.is-active > a {
   color: #000000 !important;
 }
 
-div#layers {
+#layers {
   height: 450px;
   margin-bottom: 0px;
   overflow: auto;

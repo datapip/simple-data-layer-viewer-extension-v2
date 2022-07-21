@@ -49,6 +49,6 @@ html {
   height: 100%;
 }
 
-div#layers {
+#layers {
   height: calc(100vh - 195px);
 }

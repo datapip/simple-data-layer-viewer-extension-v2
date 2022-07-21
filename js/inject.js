@@ -27,5 +27,9 @@
       pushToFoundDataLayers(dataLayerName, dataLayerData);
   });
 
-  window.postMessage({ message: messageName, data: foundDataLayers });
+  window.postMessage({
+    message: messageName,
+    data: foundDataLayers,
+    url: document.location.href,
+  });
 })();

@@ -1,0 +1,29 @@
+html {
+  width: 100% !important;
+}
+
+.is-sticky-top {
+  position: sticky !important;
+  top: 0 !important;
+}
+
+.is-sticky-bottom {
+  position: sticky !important;
+  bottom: 0 !important;
+}
+
+#layers {
+  height: calc(100vh - 121px);
+  background-color: whitesmoke;
+  overflow: auto;
+}
+
+.card #icon {
+  height: 36px;
+  margin-top: 6px;
+  margin-left: 6px;
+}
+
+.card .card-header-title {
+  padding-left: 6px;
+}
