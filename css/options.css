@@ -1,8 +1,8 @@
-div.card {
+.card {
   min-width: 320px;
 }
 
-div.column {
+.column {
   width: 350px !important;
   padding: 0px 20px;
 }
