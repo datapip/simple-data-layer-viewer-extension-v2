@@ -1,7 +1,3 @@
-/**
- * Main
- */
-
 const state = {
   tab: null,
   index: 0,
@@ -57,10 +53,6 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     }
   );
 });
-
-/**
- * Functions
- */
 
 const notifyUser = () => {
   const main = document.querySelector("#main");
@@ -179,10 +171,6 @@ const collapseTabsContent = (collapse) => {
   newNode.classList.add("is-active");
   document.querySelector("#layers").replaceChild(newNode, currentNode);
 };
-
-/**
- * Event Listeners
- */
 
 const loadTabsHeaderEventListeners = () => {
   document.querySelectorAll(".tabs li").forEach((li) => {

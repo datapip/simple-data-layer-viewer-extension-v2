@@ -1,6 +1,3 @@
-/**
- * State
- */
 const state = {
   init: false,
   refresh: true,
@@ -28,9 +25,6 @@ const state = {
   },
 };
 
-/**
- * Chrome APIs
- */
 chrome.storage.sync.get(["textSize"], ({ textSize }) => {
   if (chrome.runtime.lastError) {
     state.updateError(chrome.runtime.lastError);
@@ -65,9 +59,6 @@ chrome.devtools.network.onNavigated.addListener(() => {
   location.reload();
 });
 
-/**
- * Helper Functions
- */
 const createStyling = (textSize) => {
   const size = !textSize ? `0.9em` : `${textSize / 10}em`;
   const style = document.createElement("style");
@@ -177,9 +168,6 @@ const insertErrorContent = () => {
   document.querySelector("#main").innerHTML = createError(state.error.message);
 };
 
-/**
- * Event Listeners
- */
 const loadAutoRefreshEventListeners = () => {
   const pause = document.querySelector("#pause");
   const resume = document.querySelector("#resume");

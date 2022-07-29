@@ -1,7 +1,3 @@
-/**
- * Main
- */
-
 const state = {
   names: null,
   width: null,
@@ -51,10 +47,6 @@ chrome.storage.sync.get(
     }
   }
 );
-
-/**
- * Functions
- */
 
 const insertOptionsContent = () => {
   document.querySelector("#inputs").innerHTML = createInputs(state.names);
@@ -119,10 +111,6 @@ const toggleSaveButtonDisablement = () => {
     document.querySelector("#save").removeAttribute("disabled");
   }
 };
-
-/**
- * Event Listeners
- */
 
 const loadModalEventListeners = () => {
   document.querySelector("#close").onclick = () => {

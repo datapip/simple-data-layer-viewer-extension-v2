@@ -1,12 +1,6 @@
 (() => {
   const messageName = "update-data-layers";
 
-  window.onmessage = (event) => {
-    if (event.data.message === messageName) {
-      chrome.runtime.sendMessage(event.data);
-    }
-  };
-
   const createInjectionScript = (dataLayerNames, refreshInterval) => {
     const script = document.createElement("script");
     script.id = "simple-data-layer-viewer-live-helper";
@@ -24,4 +18,10 @@
       document.head.append(script);
     }
   );
+
+  window.onmessage = (event) => {
+    if (event.data.message === messageName) {
+      chrome.runtime.sendMessage(event.data);
+    }
+  };
 })();

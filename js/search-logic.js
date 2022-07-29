@@ -1,7 +1,3 @@
-/**
- * Main
- */
-
 const search = {
   result: 0,
   keyword: null,
@@ -42,10 +38,6 @@ const search = {
     });
   },
 };
-
-/**
- * Functions
- */
 
 const searchFor = (keyword) => {
   if (!keyword) {
@@ -153,10 +145,6 @@ const removeResultInfo = () => {
 const resetSearchInput = () => {
   document.querySelector("input.search").value = "";
 };
-
-/**
- * Event Listeners
- */
 
 const loadSearchEventListeners = () => {
   document.querySelectorAll(".tabs li, #expand, #collapse").forEach((li) => {
