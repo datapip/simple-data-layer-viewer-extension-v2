@@ -18,12 +18,6 @@ html {
   overflow: auto;
 }
 
-.card #icon {
-  height: 36px;
-  margin-top: 6px;
-  margin-left: 6px;
-}
-
 .card .card-header-title {
   padding-left: 6px;
 }
