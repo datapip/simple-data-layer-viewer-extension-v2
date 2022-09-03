@@ -1,11 +1,11 @@
 const state = {
   tab: null,
-  index: 0,
+  id: 0,
   data: null,
   error: null,
   url: null,
-  updateIndex(index) {
-    this.index = index;
+  updateId(id) {
+    this.id = id;
     setTabsClass();
     setSearchFocus();
   },
@@ -119,24 +119,16 @@ const insertTabsHeader = () => {
 };
 
 const insertTabsContent = () => {
-  state.data.map((data, index) => {
-    const node = createTabContentNode(data.layer, index);
+  state.data.map((data, id) => {
+    const node = utils.createLayerNode(id, data.layer);
     document.querySelector("#layers").appendChild(node);
   });
   setTabsClass();
 };
 
-const createTabContentNode = (layer, index, scope = "all") => {
-  const node = renderjson.set_icons("▼ ", "▲ ").set_show_to_level(scope)(
-    JSON.parse(layer)
-  );
-  node.dataset.id = index;
-  return node;
-};
-
 const setTabsClass = () => {
   document.querySelectorAll(`[data-id]`).forEach((element) => {
-    if (parseInt(element.dataset.id) === state.index) {
+    if (parseInt(element.dataset.id) === state.id) {
       element.classList.add("is-active");
     } else {
       element.classList.remove("is-active");
@@ -161,43 +153,31 @@ const insertErrorContent = () => {
   document.querySelector("#main").innerHTML = createError(state.error.message);
 };
 
-const collapseTabsContent = (collapse) => {
-  const currentNode = document.querySelector("pre.is-active");
-  const newNode = createTabContentNode(
-    state.data[state.index].layer,
-    currentNode.dataset.id,
-    collapse
-  );
-  newNode.classList.add("is-active");
-  document.querySelector("#layers").replaceChild(newNode, currentNode);
-};
-
 const loadTabsHeaderEventListeners = () => {
   document.querySelectorAll(".tabs li").forEach((li) => {
     li.onclick = (element) => {
-      const index = parseInt(element.target.parentElement.dataset.id);
-      state.updateIndex(index);
+      const id = parseInt(element.target.parentElement.dataset.id);
+      state.updateId(id);
     };
   });
 };
 
 const loadTabsFooterEventListeners = () => {
-  loadSearchEventListeners();
+  utils.loadSearchFunctionality();
 
   document.querySelector("#collapse").onclick = () => {
-    collapseTabsContent(0);
+    utils.collapseLayerContent(state.id, state.data[state.id].layer, "0");
   };
 
   document.querySelector("#expand").onclick = () => {
-    collapseTabsContent("all");
+    utils.collapseLayerContent(state.id, state.data[state.id].layer, "all");
   };
 
   document.querySelector("#copy").onclick = () => {
-    navigator.clipboard.writeText(state.data[state.index].layer);
+    utils.copyToClipboard(state.data[state.id].layer);
   };
 
   document.querySelector("#tab").onclick = async () => {
-    console.log(state.url);
     let tabId;
     await chrome.tabs.create(
       {
@@ -213,7 +193,7 @@ const loadTabsFooterEventListeners = () => {
       if (tab.status === "complete") {
         chrome.tabs.sendMessage(tabId, {
           message: "expand-data-layer",
-          data: { data: state.data[state.index], url: state.url },
+          data: { data: state.data[state.id], url: state.url },
         });
         clearInterval(awaitTab);
         chrome.tabs.update(tabId, {
@@ -223,13 +203,3 @@ const loadTabsFooterEventListeners = () => {
     }, 100);
   };
 };
-
-(() => {
-  document.querySelector("#options").onclick = () => {
-    if (chrome.runtime.openOptionsPage) {
-      chrome.runtime.openOptionsPage();
-    } else {
-      window.open(chrome.runtime.getURL("/html/options.html"));
-    }
-  };
-})();

@@ -2,11 +2,11 @@ const state = {
   init: false,
   refresh: true,
   tab: null,
-  index: null,
+  id: null,
   data: {},
   error: null,
-  updateIndex(index) {
-    this.index = index;
+  updateId(id) {
+    this.id = id;
     setTabsClass();
   },
   updateData(data) {
@@ -15,7 +15,7 @@ const state = {
       this.refresh && updateLayerContent(data);
     } else {
       this.data = data;
-      this.index = Object.keys(data)[0];
+      this.id = Object.keys(data)[0];
       this.refresh && initialLayerContent();
     }
   },
@@ -79,14 +79,14 @@ const initialLayerContent = () => {
 };
 
 const updateLayerContent = (data = state.data) => {
-  for (let [name, layer] of Object.entries(data)) {
-    const current = document.querySelector(`pre[data-name='${name}']`);
-    if (!current) return createSpecificLayerContent(name, layer);
+  for (let [id, layer] of Object.entries(data)) {
+    const current = document.querySelector(`pre[data-id='${id}']`);
+    if (!current) return createSpecificLayerContent(id, layer);
     const scope = current.dataset.scope === "0" ? 0 : "all";
-    const updated = createTabContentNode(name, layer, scope);
+    const updated = utils.createLayerNode(id, layer, scope);
     updated.classList = current.classList;
     document.querySelector("#layers").replaceChild(updated, current);
-    const circle = document.querySelector(`a[data-name="${name}"] span`);
+    const circle = document.querySelector(`a[data-id="${id}"] span`);
     circle.classList.add("updated");
     setTimeout(() => {
       circle.classList.remove("updated");
@@ -94,9 +94,9 @@ const updateLayerContent = (data = state.data) => {
   }
 };
 
-const createSpecificLayerContent = (name, layer) => {
-  insertTabHeader(name);
-  insertTabContent(name, layer);
+const createSpecificLayerContent = (id, layer) => {
+  insertTabHeader(id);
+  insertTabContent(id, layer);
   loadTabsHeaderEventListeners();
 };
 
@@ -110,48 +110,39 @@ const insertTabsContainer = () => {
 };
 
 const insertTabsHeader = () => {
-  for (let name of Object.keys(state.data)) {
-    insertTabHeader(name);
+  for (let id of Object.keys(state.data)) {
+    insertTabHeader(id);
   }
   loadTabsHeaderEventListeners();
 };
 
-const insertTabHeader = (name) => {
-  const node = createTabHeaderNode(name);
+const insertTabHeader = (id) => {
+  const node = createTabHeaderNode(id);
   document.querySelector("#tabs").appendChild(node);
 };
 
-const createTabHeaderNode = (name) => {
+const createTabHeaderNode = (id) => {
   const node = document.createElement("li");
-  node.innerHTML = `<a data-name="${name}">${name}<span class="is-circle"></span></a>`;
-  node.dataset.name = name;
+  node.innerHTML = `<a data-id="${id}">${id}<span class="is-circle"></span></a>`;
+  node.dataset.id = id;
   return node;
 };
 
 const insertTabsContent = () => {
-  for (let [name, data] of Object.entries(state.data)) {
-    insertTabContent(name, data);
+  for (let [id, data] of Object.entries(state.data)) {
+    insertTabContent(id, data);
   }
   setTabsClass();
 };
 
-const insertTabContent = (name, data) => {
-  const node = createTabContentNode(name, data);
+const insertTabContent = (id, data) => {
+  const node = utils.createLayerNode(id, data);
   document.querySelector("#layers").appendChild(node);
 };
 
-const createTabContentNode = (name, data, scope = "all") => {
-  const node = renderjson.set_icons("▼ ", "▲ ").set_show_to_level(scope)(
-    JSON.parse(data)
-  );
-  node.dataset.name = name;
-  node.dataset.scope = scope;
-  return node;
-};
-
 const setTabsClass = () => {
-  document.querySelectorAll(`li[data-name],pre[data-name]`).forEach((tab) => {
-    if (tab.dataset.name === state.index) {
+  document.querySelectorAll(`li[data-id],pre[data-id]`).forEach((tab) => {
+    if (tab.dataset.id === state.id) {
       tab.classList.add("is-active");
     } else {
       tab.classList.remove("is-active");
@@ -187,51 +178,24 @@ const loadAutoRefreshEventListeners = () => {
 const loadTabsHeaderEventListeners = () => {
   document.querySelectorAll(".tabs li").forEach((li) => {
     li.onclick = (element) => {
-      const index = element.target.parentNode.dataset.name;
-      state.updateIndex(index);
+      const id = element.target.parentNode.dataset.id;
+      state.updateId(id);
     };
   });
 };
 
 const loadTabsFooterEventListeners = () => {
-  loadSearchEventListeners();
-
-  const collapseTabsContent = (collapse) => {
-    const currentNode = document.querySelector("pre.is-active");
-    const newNode = createTabContentNode(
-      state.index,
-      state.data[state.index],
-      collapse
-    );
-    newNode.classList.add("is-active");
-    document.querySelector("#layers").replaceChild(newNode, currentNode);
-  };
+  utils.loadSearchFunctionality();
 
   document.querySelector("#collapse").onclick = () => {
-    collapseTabsContent(0);
+    utils.collapseLayerContent(state.id, state.data[state.id], "0");
   };
 
   document.querySelector("#expand").onclick = () => {
-    collapseTabsContent("all");
+    utils.collapseLayerContent(state.id, state.data[state.id], "all");
   };
 
   document.querySelector("#copy").onclick = () => {
-    let textarea = document.createElement("textarea");
-    textarea.textContent = state.data[state.index];
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand("copy");
-    textarea.blur();
-    document.body.removeChild(textarea);
+    utils.copyToClipboard(state.data[state.id]);
   };
 };
-
-(() => {
-  document.querySelector("#options").onclick = () => {
-    if (chrome.runtime.openOptionsPage) {
-      chrome.runtime.openOptionsPage();
-    } else {
-      window.open(chrome.runtime.getURL("options.html"));
-    }
-  };
-})();

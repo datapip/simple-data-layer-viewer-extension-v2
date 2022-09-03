@@ -43,7 +43,7 @@ const createTabContentNode = (name, data, scope = "all") => {
 };
 
 (() => {
-  loadSearchEventListeners();
+  utils.loadSearchFunctionality();
 
   const collapseTabsContent = (collapse) => {
     const currentNode = document.querySelector("pre.is-active");
@@ -61,12 +61,6 @@ const createTabContentNode = (name, data, scope = "all") => {
   };
 
   document.querySelector("#copy").onclick = () => {
-    let textarea = document.createElement("textarea");
-    textarea.textContent = state.data;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand("copy");
-    textarea.blur();
-    document.body.removeChild(textarea);
+    utils.copyToClipboard(state.data);
   };
 })();
