@@ -44,7 +44,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
   chrome.scripting.executeScript(
     {
       target: { tabId: tab.id },
-      files: ["/js/content.js"],
+      files: ["/js/popup/content_script.js"],
     },
     () => {
       if (chrome.runtime.lastError) {
@@ -202,7 +202,7 @@ const loadTabsFooterEventListeners = () => {
     await chrome.tabs.create(
       {
         active: false,
-        url: "expand.html",
+        url: "/html/tab.html",
       },
       (tab) => {
         tabId = tab.id;
@@ -229,7 +229,7 @@ const loadTabsFooterEventListeners = () => {
     if (chrome.runtime.openOptionsPage) {
       chrome.runtime.openOptionsPage();
     } else {
-      window.open(chrome.runtime.getURL("options.html"));
+      window.open(chrome.runtime.getURL("/html/options.html"));
     }
   };
 })();

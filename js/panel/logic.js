@@ -45,7 +45,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
   chrome.scripting.executeScript(
     {
       target: { tabId: tab.id },
-      files: ["/js/content-devtools.js"],
+      files: ["/js/panel/content_script.js"],
     },
     () => {
       if (chrome.runtime.lastError) {

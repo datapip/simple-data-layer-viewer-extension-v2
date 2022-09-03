@@ -4,7 +4,7 @@
   const createInjectionScript = (dataLayerNames, refreshInterval) => {
     const script = document.createElement("script");
     script.id = "simple-data-layer-viewer-live-helper";
-    script.src = chrome.runtime.getURL("/js/inject-devtools.js");
+    script.src = chrome.runtime.getURL("/js/panel/inject_script.js");
     script.dataset.name = JSON.stringify(dataLayerNames);
     script.dataset.message = messageName;
     script.dataset.interval = refreshInterval;

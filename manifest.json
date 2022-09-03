@@ -8,29 +8,29 @@
   "host_permissions": ["<all_urls>"],
   "action": {
     "default_title": "Show Data Layer",
-    "default_popup": "popup.html",
+    "default_popup": "/html/popup.html",
     "default_icon": {
-      "16": "/img/icon.png",
-      "32": "/img/icon.png",
-      "48": "/img/icon.png",
-      "128": "/img/icon.png"
+      "16": "/img/logo.png",
+      "32": "/img/logo.png",
+      "48": "/img/logo.png",
+      "128": "/img/logo.png"
     }
   },
-  "options_page": "options.html",
+  "options_page": "/html/options.html",
   "background": {
     "service_worker": "/js/background.js"
   },
   "web_accessible_resources": [
     {
-      "resources": ["/js/inject.js", "/js/inject-devtools.js"],
+      "resources": ["/js/popup/inject_script.js", "/js/panel/inject_script.js"],
       "matches": ["<all_urls>"]
     }
   ],
   "icons": {
-    "16": "/img/icon.png",
-    "32": "/img/icon.png",
-    "48": "/img/icon.png",
-    "128": "/img/icon.png"
+    "16": "/img/logo.png",
+    "32": "/img/logo.png",
+    "48": "/img/logo.png",
+    "128": "/img/logo.png"
   },
-  "devtools_page": "devtools.html"
+  "devtools_page": "/html/devtools.html"
 }

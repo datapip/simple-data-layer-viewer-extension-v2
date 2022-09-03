@@ -1,6 +1,6 @@
 chrome.devtools.panels.create(
   "Simple Data Layer Viewer - Live",
-  "/img/icon.png",
-  "panel.html",
+  "/img/logo.png",
+  "/html/devpanel.html",
   null
 );
