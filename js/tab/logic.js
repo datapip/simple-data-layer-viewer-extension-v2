@@ -10,11 +10,13 @@ const state = {
 };
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  const { data, url } = JSON.parse(request);
-  state.url = url;
-  state.index = data.name;
-  state.data = data.layer;
-  state.updateData();
+  if (request.message === "expand-data-layer") {
+    const { data, url } = request.data;
+    state.url = url;
+    state.index = data.name;
+    state.data = data.layer;
+    state.updateData();
+  }
 });
 
 const setTitle = () => {

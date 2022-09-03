@@ -211,10 +211,10 @@ const loadTabsFooterEventListeners = () => {
     const awaitTab = setInterval(async () => {
       const tab = await chrome.tabs.get(tabId);
       if (tab.status === "complete") {
-        chrome.tabs.sendMessage(
-          tabId,
-          JSON.stringify({ data: state.data[state.index], url: state.url })
-        );
+        chrome.tabs.sendMessage(tabId, {
+          message: "expand-data-layer",
+          data: { data: state.data[state.index], url: state.url },
+        });
         clearInterval(awaitTab);
         chrome.tabs.update(tabId, {
           active: true,
