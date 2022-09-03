@@ -35,6 +35,7 @@ chrome.storage.sync.get(["textSize"], ({ textSize }) => {
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.message === "update-data-layers" && sender.tab.id === state.tab) {
+    console.log("----- panel", request);
     state.updateData(request.data);
   }
 });

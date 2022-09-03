@@ -1,6 +1,6 @@
 const state = {
   tab: null,
-  id: 0,
+  id: null,
   data: null,
   error: null,
   url: null,
@@ -11,6 +11,7 @@ const state = {
   },
   updateData(data) {
     this.data = data;
+    this.id = Object.keys(data)[0];
     loadContent();
   },
   updateError(error) {
@@ -34,6 +35,7 @@ chrome.storage.sync.get(
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.message === "found-data-layers" && sender.tab.id === state.tab) {
     state.url = request.url;
+    console.log("----- popup", request);
     state.updateData(request.data);
   }
 });
@@ -91,7 +93,7 @@ const createStyling = (windowWidth, windowHeight, textSize) => {
 };
 
 const loadContent = () => {
-  if (state.data.length) {
+  if (Object.keys(state.data).length) {
     loadLayerContent();
   } else {
     insertFailureContent();
@@ -114,24 +116,38 @@ const insertTabsContainer = () => {
 };
 
 const insertTabsHeader = () => {
-  document.querySelector("#tabs").innerHTML = createTabsHeader(state.data);
+  for (let id of Object.keys(state.data)) {
+    insertTabHeader(id);
+  }
   loadTabsHeaderEventListeners();
 };
 
+const insertTabHeader = (id) => {
+  const node = createTabHeaderNode(id);
+  document.querySelector("#tabs").appendChild(node);
+};
+
+const createTabHeaderNode = (id) => {
+  const node = document.createElement("li");
+  node.innerHTML = `<a>${id}</a>`;
+  node.dataset.id = id;
+  return node;
+};
+
 const insertTabsContent = () => {
-  state.data.map((data, id) => {
-    const node = utils.createLayerNode(id, data.layer);
+  for (let [id, data] of Object.entries(state.data)) {
+    const node = utils.createLayerNode(id, data);
     document.querySelector("#layers").appendChild(node);
-  });
+  }
   setTabsClass();
 };
 
 const setTabsClass = () => {
-  document.querySelectorAll(`[data-id]`).forEach((element) => {
-    if (parseInt(element.dataset.id) === state.id) {
-      element.classList.add("is-active");
+  document.querySelectorAll(`li[data-id],pre[data-id]`).forEach((tab) => {
+    if (tab.dataset.id === state.id) {
+      tab.classList.add("is-active");
     } else {
-      element.classList.remove("is-active");
+      tab.classList.remove("is-active");
     }
   });
 };
@@ -156,7 +172,7 @@ const insertErrorContent = () => {
 const loadTabsHeaderEventListeners = () => {
   document.querySelectorAll(".tabs li").forEach((li) => {
     li.onclick = (element) => {
-      const id = parseInt(element.target.parentElement.dataset.id);
+      const id = element.target.parentNode.dataset.id;
       state.updateId(id);
     };
   });
@@ -166,15 +182,15 @@ const loadTabsFooterEventListeners = () => {
   utils.loadSearchFunctionality();
 
   document.querySelector("#collapse").onclick = () => {
-    utils.collapseLayerContent(state.id, state.data[state.id].layer, "0");
+    utils.collapseLayerContent(state.id, state.data[state.id], "0");
   };
 
   document.querySelector("#expand").onclick = () => {
-    utils.collapseLayerContent(state.id, state.data[state.id].layer, "all");
+    utils.collapseLayerContent(state.id, state.data[state.id], "all");
   };
 
   document.querySelector("#copy").onclick = () => {
-    utils.copyToClipboard(state.data[state.id].layer);
+    utils.copyToClipboard(state.data[state.id]);
   };
 
   document.querySelector("#tab").onclick = async () => {
@@ -193,7 +209,7 @@ const loadTabsFooterEventListeners = () => {
       if (tab.status === "complete") {
         chrome.tabs.sendMessage(tabId, {
           message: "expand-data-layer",
-          data: { data: state.data[state.id], url: state.url },
+          data: { id: state.id, data: state.data[state.id], url: state.url },
         });
         clearInterval(awaitTab);
         chrome.tabs.update(tabId, {

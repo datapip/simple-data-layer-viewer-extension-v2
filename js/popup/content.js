@@ -60,17 +60,6 @@ const createTabsContainer = () => {
   `;
 };
 
-const createTabsHeader = (tabs) => {
-  return tabs
-    .map(
-      (tab, index) =>
-        `<li data-id="${index}">
-          <a>${tab.name}</a>
-        </li>`
-    )
-    .join("");
-};
-
 const createFooter = () => {
   return `
     <div class="field has-addons m-0">

@@ -19,12 +19,13 @@
   const messageName = document.getElementById("simple-data-layer-viewer-helper")
     .dataset.message;
 
-  const foundDataLayers = [];
+  const foundDataLayers = {};
 
   dataLayerNames.forEach((dataLayerName) => {
     const dataLayerData = referenceDataLayerFromWindow(dataLayerName);
+    const stringifiedDataLayerData = JSON.stringify(dataLayerData);
     if (typeof dataLayerData === "object")
-      pushToFoundDataLayers(dataLayerName, dataLayerData);
+      foundDataLayers[dataLayerName] = stringifiedDataLayerData;
   });
 
   window.postMessage({
