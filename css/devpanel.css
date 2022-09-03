@@ -36,14 +36,6 @@ html {
   flex-direction: column;
 }
 
-.card .card-header-title {
-  padding-left: 6px;
-}
-
-.card-content {
-  height: 100%;
-}
-
 #layers {
   height: calc(100vh - 195px);
 }

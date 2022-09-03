@@ -6,6 +6,14 @@ html {
   background: whitesmoke !important;
 }
 
+.card .card-content {
+  height: 100%;
+}
+
+.card .card-header-title {
+  padding-left: 6px;
+}
+
 .card #icon {
   height: 36px;
   margin-top: 6px;
