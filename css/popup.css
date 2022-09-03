@@ -6,6 +6,12 @@ html {
   background: whitesmoke !important;
 }
 
+.card #icon {
+  height: 36px;
+  margin-top: 6px;
+  margin-left: 6px;
+}
+
 #notification .modal-background {
   background-color: rgba(10, 10, 10, 0.75) !important;
 }
