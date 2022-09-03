@@ -8,52 +8,60 @@
     <link rel="stylesheet" href="/css/tab.css" />
     <title></title>
   </head>
-  <body id="container" class="has-background-light">
-    <div class="card">
-      <header
-        class="card-header has-background-info is-radiusless is-flex-direction-column is-sticky-top"
-      >
-        <div class="is-flex">
-          <img id="icon" src="/img/logo128.png" />
-          <p class="card-header-title has-text-light">
-            Simple Data Layer Viewer - Snapshot
-          </p>
-        </div>
-        <div
-          id="url"
-          class="p-1 has-background-grey-lighter has-text-grey has-text-centered"
+
+  <body class="has-background-light">
+    <section id="container">
+      <div class="card">
+        <header
+          class="card-header has-background-info is-radiusless is-flex-direction-column is-sticky-top"
         >
-          Please open a data layer snapshot from the extension popup.
-        </div>
-      </header>
-      <main id="layers" class="card-content px-3 pt-3 pb-0"></main>
-      <footer id="footer" class="card-footer is-sticky-bottom">
-        <div class="field has-addons m-0">
-          <div class="control">
-            <input
-              class="input search is-radiusless is-borderless pr-0"
-              type="text"
-              placeholder="Search key or value"
-            />
-            <span id="results" class="has-text-grey"></span>
+          <div class="is-flex">
+            <img id="icon" src="/img/logo128.png" />
+            <p class="card-header-title has-text-light">
+              Simple Data Layer Viewer - Snapshot
+            </p>
           </div>
-          <div class="control">
-            <button
-              id="search"
-              class="button is-outlined is-radiusless has-text-info"
-            >
-              ▼
-            </button>
+          <div
+            id="url"
+            class="p-1 has-background-grey-lighter has-text-grey has-text-centered"
+          >
+            Please open a data layer snapshot from the extension popup.
           </div>
-        </div>
-        <button id="collapse" class="button is-info is-radiusless">
-          Collapse
-        </button>
-        <button id="expand" class="button is-info is-radiusless">Expand</button>
-        <button id="copy" class="button is-info is-radiusless">Copy</button>
-      </footer>
-    </div>
+        </header>
+
+        <main id="layers" class="card-content px-3 pt-3 pb-0"></main>
+
+        <footer id="footer" class="card-footer is-sticky-bottom">
+          <div class="field has-addons m-0">
+            <div class="control">
+              <input
+                class="input search is-radiusless is-borderless pr-0"
+                type="text"
+                placeholder="Search key or value"
+              />
+              <span id="results" class="has-text-grey"></span>
+            </div>
+            <div class="control">
+              <button
+                id="search"
+                class="button is-outlined is-radiusless has-text-info"
+              >
+                ▼
+              </button>
+            </div>
+          </div>
+          <button id="collapse" class="button is-info is-radiusless">
+            Collapse
+          </button>
+          <button id="expand" class="button is-info is-radiusless">
+            Expand
+          </button>
+          <button id="copy" class="button is-info is-radiusless">Copy</button>
+        </footer>
+      </div>
+    </section>
   </body>
+
   <script src="/js/utils/renderjson.js"></script>
   <script src="/js/utils/search.js"></script>
   <script src="/js/tab/logic.js"></script>
