@@ -11,7 +11,7 @@
       windowHeight = 600,
       textSize = 9,
       refreshInterval = 250,
-      isNotified = false;
+      isNotified = true;
 
     chrome.storage.sync.set({
       dataLayerNames,
