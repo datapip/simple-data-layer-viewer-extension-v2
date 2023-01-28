@@ -7,6 +7,21 @@
   const refreshInterval = parseInt(script.dataset.interval);
   const foundDataLayers = {};
 
+  const stringify = (dataLayerData) => {
+    let cache = [];
+    let str = JSON.stringify(dataLayerData, function (key, value) {
+      if (typeof value === "object" && value !== null) {
+        if (cache.indexOf(value) !== -1 || value instanceof Node) {
+          return;
+        }
+        cache.push(value);
+      }
+      return value;
+    });
+    cache = null;
+    return str;
+  };
+
   const referenceDataLayerFromWindow = (dataLayerName) => {
     return dataLayerName.split(".").reduce((accumulator, currentValue) => {
       return accumulator[currentValue];
@@ -15,7 +30,7 @@
 
   dataLayerNames.forEach((dataLayerName) => {
     const dataLayerData = referenceDataLayerFromWindow(dataLayerName);
-    const stringifiedDataLayerData = JSON.stringify(dataLayerData);
+    const stringifiedDataLayerData = stringify(dataLayerData);
     if (typeof dataLayerData === "object") {
       foundDataLayers[dataLayerName] = stringifiedDataLayerData;
     }
@@ -29,7 +44,7 @@
     const updatedDataLayers = {};
     dataLayerNames.forEach((dataLayerName) => {
       const dataLayerData = referenceDataLayerFromWindow(dataLayerName);
-      const stringifiedDataLayerData = JSON.stringify(dataLayerData);
+      const stringifiedDataLayerData = stringify(dataLayerData);
       if (
         typeof dataLayerData === "object" &&
         stringifiedDataLayerData !== foundDataLayers[dataLayerName]
