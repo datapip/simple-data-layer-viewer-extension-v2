@@ -15,7 +15,7 @@
           return "[Circular Reference]";
         }
         if (value instanceof Node) {
-          return "[Node Element]";
+          return value.outerHTML || "[Node Element]";
         }
         cache.push(value);
       }
