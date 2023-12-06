@@ -1,6 +1,8 @@
 (() => {
   const messageName = "update-data-layers";
 
+  console.log("content_scripts.js")
+
   const createInjectionScript = (dataLayerNames, refreshInterval) => {
     const script = document.createElement("script");
     script.id = "simple-data-layer-viewer-live-helper";
